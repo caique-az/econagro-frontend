@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEnvelope, faPhone, faLock, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faEnvelope, faPhone, faLock, faCheck, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Cadastro = () => {
   const router = useRouter();
@@ -17,16 +17,25 @@ const Cadastro = () => {
     cpassword: "",
     gender: "",
   });
+  const [passwordError, setPasswordError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "cpassword" || name === "password") {
+      setPasswordError("");
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Dados do formulário:", formData);
-    // Aqui você adicionaria a lógica de integração com a API
+
+    if (formData.password !== formData.cpassword) {
+      setPasswordError("As senhas não correspondem.");
+      return;
+    }
+
+    // TODO: integrar com API de cadastro
     router.push('/login');
   };
 
@@ -174,9 +183,17 @@ const Cadastro = () => {
                       value={formData.cpassword}
                       onChange={handleChange}
                       required
-                      className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                      className={`w-full pl-10 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
+                        passwordError ? 'border-error' : 'border-gray-300'
+                      }`}
                     />
                   </div>
+                  {passwordError && (
+                    <p className="mt-1 text-xs text-error flex items-center">
+                      <FontAwesomeIcon icon={faExclamationCircle} className="mr-1" />
+                      {passwordError}
+                    </p>
+                  )}
                 </div>
               </div>
 
