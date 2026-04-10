@@ -6,29 +6,12 @@ const SearchContext = createContext();
 
 export function SearchProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
 
-  const updateSearch = (term) => {
-    setSearchTerm(term);
-  };
-
-  const clearSearch = () => {
-    setSearchTerm('');
-    setSearchResults([]);
-    setIsSearching(false);
-  };
+  const updateSearch = (term) => setSearchTerm(term);
+  const clearSearch = () => setSearchTerm('');
 
   return (
-    <SearchContext.Provider value={{
-      searchTerm,
-      searchResults,
-      isSearching,
-      setSearchResults,
-      setIsSearching,
-      updateSearch,
-      clearSearch
-    }}>
+    <SearchContext.Provider value={{ searchTerm, updateSearch, clearSearch }}>
       {children}
     </SearchContext.Provider>
   );
