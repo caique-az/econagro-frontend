@@ -50,16 +50,32 @@ const ContatoPage = () => {
   };
 
   const validateForm = () => {
+    const newErrors = {};
     let valid = true;
-    let newErrors = {};
 
-    Object.keys(formData).forEach((field) => {
-      validateField(field, formData[field]);
-      if (!formData[field].trim() || errors[field]) {
-        valid = false;
-      }
-      newErrors[field] = errors[field] || (!formData[field].trim() ? "Este campo é obrigatório." : "");
-    });
+    if (!formData.nome.trim()) {
+      newErrors.nome = "Este campo é obrigatório.";
+      valid = false;
+    } else if (formData.nome.length < 3) {
+      newErrors.nome = "O nome deve ter pelo menos 3 caracteres.";
+      valid = false;
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Este campo é obrigatório.";
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Insira um e-mail válido.";
+      valid = false;
+    }
+
+    if (!formData.mensagem.trim()) {
+      newErrors.mensagem = "Este campo é obrigatório.";
+      valid = false;
+    } else if (formData.mensagem.length < 10) {
+      newErrors.mensagem = "A mensagem deve ter pelo menos 10 caracteres.";
+      valid = false;
+    }
 
     setErrors(newErrors);
     return valid;
