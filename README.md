@@ -1,71 +1,90 @@
-# EconAgro - Technology for Agribusiness 🌱
+# EconAgro — Frontend
 
-EconAgro é uma plataforma web moderna desenvolvida para revolucionar a gestão do agronegócio, oferecendo soluções tecnológicas integradas para produtores rurais.
+Plataforma de e-commerce agrícola desenvolvida com Next.js e Tailwind CSS, conectando produtores rurais e consumidores.
 
-> **Nota:** Este projeto foi refatorado e modernizado para **Next.js 14** e **Tailwind CSS**.
+> Este repositório contém apenas o frontend. O backend reside em um repositório separado (Node.js + Express + MongoDB).
 
-## 🚀 Recursos
+## Funcionalidades
 
-- **E-commerce Agrícola:** Navegação por categorias, carrinho de compras, e busca de produtos.
-- **Interface Responsiva:** Design adaptável para dispositivos móveis e desktop utilizando Tailwind CSS.
-- **Gestão de Estado:** Uso de Context API para gerenciamento global de carrinho e busca.
-- **Arquitetura Modular:** Separação clara de responsabilidades (Services, Contexts, Hooks) com App Router.
+- Navegação por categorias de produtos (Grãos, Frutas, Legumes, Verduras)
+- Busca de produtos em tempo real
+- Carrinho de compras com cálculo de frete
+- Páginas de login, cadastro e recuperação de senha
+- Formulário de contato
+- Design responsivo (mobile-first)
 
-## 🏗️ Estrutura do Projeto (Frontend)
+## Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| UI | React 18 + Tailwind CSS 3 |
+| HTTP | Axios |
+| Ícones | Font Awesome 6 |
+
+## Estrutura
 
 ```
-frontend/
-├── public/           # Arquivos estáticos (imagens públicas, etc)
-└── src/              # Código-fonte da aplicação
-    ├── app/          # Páginas e Layouts (App Router)
-    ├── assets/       # Recursos estáticos importados (imagens)
-    ├── components/   # Componentes reutilizáveis (Header, Footer, Cart, etc.)
-    ├── context/      # Gerenciamento de estado global (CartContext, SearchContext)
-    ├── data/         # Dados estáticos centralizados (categorias)
-    ├── hooks/        # Custom Hooks (useCartLogic)
-    └── services/     # Comunicação com API (Axios, productService)
+src/
+├── app/              # Páginas e rotas (App Router)
+├── components/       # Componentes reutilizáveis (Header, Footer, Produtos…)
+├── constants/        # Constantes globais (imagens de fallback, etc.)
+├── context/          # Estado global (CartContext, SearchContext)
+├── data/             # Dados estáticos (categorias)
+├── hooks/            # Custom hooks (useCartLogic)
+├── services/         # Comunicação com API (Axios, productService)
+└── utils/            # Utilitários (priceUtils)
 ```
 
-## 🛠️ Tecnologias Utilizadas
+## Configuração
 
-### Frontend
-- **Next.js 14** - Framework React para produção (App Router)
-- **React 18** - Biblioteca para construção de interfaces
-- **Tailwind CSS** - Framework CSS utilitário
-- **Context API** - Gerenciamento de estado nativo do React
-- **Axios** - Cliente HTTP para integração com API
-- **Font Awesome** - Ícones vetoriais e responsivos
+### 1. Instalar dependências
 
-### Backend (Separado)
-- O backend deste projeto foi desacoplado e reside em um repositório dedicado, utilizando Node.js, Express e MongoDB.
-
-## 📋 Pré-requisitos
-
-- Node.js (versão 18 ou superior recomendada)
-- npm (versão 9 ou superior)
-
-## 🔧 Instalação e Execução
-
-1. Acesse o diretório do frontend:
-```bash
-cd frontend
-```
-
-2. Instale as dependências:
 ```bash
 npm install
 ```
 
-3. Inicie o servidor de desenvolvimento:
+### 2. Configurar variáveis de ambiente
+
+Copie o arquivo de exemplo e ajuste a URL da API:
+
+```bash
+cp .env.example .env
+```
+
+| Variável | Descrição | Padrão |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | URL base da API backend | `http://localhost:3001/api` |
+
+### 3. Iniciar em desenvolvimento
+
 ```bash
 npm run dev
 ```
-A aplicação estará disponível em `http://localhost:3000`.
 
-## 📄 Licença
+Acesse em `http://localhost:3000`.
 
-Este projeto está sob a licença MIT.
+### 4. Build de produção
+
+```bash
+npm run build
+npm start
+```
+
+## Scripts
+
+| Comando | Descrição |
+|---|---|
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção |
+| `npm start` | Inicia o servidor de produção |
+| `npm run lint` | Verificação de lint |
+
+## Pré-requisitos
+
+- Node.js 18+
+- npm 9+
 
 ---
 
-Desenvolvido com ❤️ pela equipe EconAgro
+Desenvolvido pela equipe EconAgro
