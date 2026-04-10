@@ -1,0 +1,30 @@
+# Dependências
+node_modules/
+.pnp
+.pnp.js
+
+# Build do Next.js
+.next/
+out/
+build/
+
+# Variáveis de Ambiente (Nunca commite isso, pelo amor da segurança da informação)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Misc
+.DS_Store
+*.pem
+.vercel
+
+.idea
