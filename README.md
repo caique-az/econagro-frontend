@@ -2,7 +2,7 @@
 
 Interface web de e-commerce agrícola desenvolvida com Next.js 16 e Tailwind CSS.
 
-**Repositório do backend:** _link do repositório aqui_
+**Repositório do backend:** https://github.com/caique-az/econagro-backend
 
 ---
 
