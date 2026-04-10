@@ -105,7 +105,7 @@ function Login() {
               {passwordError && (
                 <p className="mt-1 text-xs text-error flex items-center">
                   <FontAwesomeIcon icon={faExclamationCircle} className="mr-1" />
-                  Senha incorreta
+                  Este campo é obrigatório
                 </p>
               )}
             </div>
