@@ -8,13 +8,8 @@ node_modules/
 out/
 build/
 
-# Variáveis de Ambiente (Nunca commite isso, pelo amor da segurança da informação)
+# Variáveis de Ambiente
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env*.local
 
 # Logs
 npm-debug.log*
@@ -27,4 +22,5 @@ yarn-error.log*
 *.pem
 .vercel
 
+# IDE
 .idea
