@@ -8,12 +8,12 @@ import imagem7 from '../assets/imagem7.jpg';
 import imagem8 from '../assets/imagem8.jpg';
 
 export const categories = [
-  { name: 'Carnes', img: imagem1, path: '/categoria/Carnes' },
-  { name: 'Ovos', img: imagem2, path: '/categoria/Ovos' },
-  { name: 'Laticínios', img: imagem3, path: '/categoria/Laticínios' },
-  { name: 'Grãos', img: imagem4, path: '/categoria/Grãos' },
-  { name: 'Frutas', img: imagem5, path: '/categoria/Frutas' },
-  { name: 'Verduras', img: imagem6, path: '/categoria/Verduras' },
-  { name: 'Legumes', img: imagem7, path: '/categoria/Legumes' },
-  { name: 'Sementes', img: imagem8, path: '/categoria/Sementes' },
+  { name: 'Carnes',     img: imagem1 },
+  { name: 'Ovos',       img: imagem2 },
+  { name: 'Laticínios', img: imagem3 },
+  { name: 'Grãos',      img: imagem4 },
+  { name: 'Frutas',     img: imagem5 },
+  { name: 'Verduras',   img: imagem6 },
+  { name: 'Legumes',    img: imagem7 },
+  { name: 'Sementes',   img: imagem8 },
 ];
