@@ -3,9 +3,15 @@ import { FALLBACK_IMAGE_PRODUCT } from '../constants/images';
 
 const productService = {
   /**
-   * Busca todos os produtos ou produtos de uma categoria específica
-   * @param {string} [category] - Categoria opcional para filtrar
-   * @returns {Promise<Array>} Lista de produtos normalizada
+   * Fetches products from the API, optionally filtered by category.
+   *
+   * Normalises each product to ensure a consistent `id` field (from either
+   * `product.id` or `product._id`) and resolves relative image URLs against
+   * the API base URL.
+   *
+   * @param {string} [category] - Category name to filter by. Omit to fetch all.
+   * @returns {Promise<Array>} Normalised product array.
+   * @throws Will re-throw any network or API error.
    */
   async getProducts(category) {
     try {

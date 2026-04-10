@@ -1,6 +1,25 @@
 import { useState, useCallback } from 'react';
 import { parsePrice } from '../utils/priceUtils';
 
+/**
+ * Encapsulates cart calculation logic: shipping selection, promo code
+ * validation and order total computation.
+ *
+ * Promo code application is a client-side stub — integrate with the
+ * discount endpoint once the backend exposes it.
+ *
+ * @returns {{
+ *   shipping: number,
+ *   setShipping: Function,
+ *   promoCode: string,
+ *   setPromoCode: Function,
+ *   promoDiscount: number,
+ *   promoError: string,
+ *   promoSuccess: string,
+ *   applyPromoCode: Function,
+ *   calculateTotal: Function,
+ * }}
+ */
 export const useCartLogic = () => {
   const [shipping, setShipping] = useState(5);
   const [promoCode, setPromoCode] = useState('');
@@ -8,6 +27,7 @@ export const useCartLogic = () => {
   const [promoError, setPromoError] = useState('');
   const [promoSuccess, setPromoSuccess] = useState('');
 
+  /** Validates and applies a promo code. Stub — replace with API call. */
   const applyPromoCode = useCallback(() => {
     setPromoError('');
     setPromoSuccess('');
@@ -17,10 +37,16 @@ export const useCartLogic = () => {
       return;
     }
 
-    // Placeholder: integrar com API quando disponível
+    // TODO: POST /discounts/validate { code: promoCode }
     setPromoError('Código inválido ou expirado.');
   }, [promoCode]);
 
+  /**
+   * Calculates order totals for the given cart items.
+   *
+   * @param {Array<{price: string|number, quantity: number}>} cart
+   * @returns {{ subtotal: number, discount: number, shipping: number, total: number }}
+   */
   const calculateTotal = useCallback((cart) => {
     const subtotal = cart.reduce((sum, item) => {
       return sum + parsePrice(item.price) * item.quantity;
