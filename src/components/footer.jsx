@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLeaf, faPhone, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
@@ -5,6 +8,15 @@ import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-sv
 
 function Footer() {
   const currentYear = new Date().getFullYear();
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    if (!newsletterEmail.trim()) return;
+    // TODO: integrar com API de newsletter
+    setNewsletterSubmitted(true);
+  };
 
   return (
     <footer className="bg-gradient-to-br from-green-900 to-green-800 text-white mt-auto w-full">
@@ -15,19 +27,27 @@ function Footer() {
             <h3 className="text-xl font-bold mb-1">Inscreva-se na nossa Newsletter</h3>
             <p className="text-green-200 text-sm">Receba ofertas exclusivas e dicas de cultivo diretamente no seu e-mail.</p>
           </div>
-          <form className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-            <input 
-              type="email" 
-              placeholder="Seu melhor e-mail" 
-              className="px-4 py-2 rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-accent w-full md:w-64"
-            />
-            <button 
-              type="button" 
-              className="bg-accent hover:bg-yellow-500 text-green-900 font-bold py-2 px-6 rounded-lg transition-colors duration-300"
-            >
-              Inscrever
-            </button>
-          </form>
+
+          {newsletterSubmitted ? (
+            <p className="text-accent font-semibold text-sm">Obrigado! Em breve você receberá nossas novidades.</p>
+          ) : (
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+              <input
+                type="email"
+                placeholder="Seu melhor e-mail"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                required
+                className="px-4 py-2 rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-accent w-full md:w-64"
+              />
+              <button
+                type="submit"
+                className="bg-accent hover:bg-yellow-500 text-green-900 font-bold py-2 px-6 rounded-lg transition-colors duration-300"
+              >
+                Inscrever
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
@@ -44,13 +64,13 @@ function Footer() {
               Conectando o campo à tecnologia. Oferecemos as melhores soluções para o produtor rural com qualidade e sustentabilidade.
             </p>
             <div className="flex space-x-4 pt-2">
-              <a href="#" className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center hover:bg-accent hover:text-green-900 transition-all duration-300">
+              <a href="#" aria-label="Instagram" className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center hover:bg-accent hover:text-green-900 transition-all duration-300">
                 <FontAwesomeIcon icon={faInstagram} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center hover:bg-accent hover:text-green-900 transition-all duration-300">
+              <a href="#" aria-label="Facebook" className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center hover:bg-accent hover:text-green-900 transition-all duration-300">
                 <FontAwesomeIcon icon={faFacebook} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center hover:bg-accent hover:text-green-900 transition-all duration-300">
+              <a href="#" aria-label="WhatsApp" className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center hover:bg-accent hover:text-green-900 transition-all duration-300">
                 <FontAwesomeIcon icon={faWhatsapp} />
               </a>
             </div>
@@ -71,13 +91,13 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/produtos" className="text-green-100 hover:text-accent transition-colors flex items-center">
-                  <span className="mr-2">›</span> Produtos
+                <Link href="/talktous" className="text-green-100 hover:text-accent transition-colors flex items-center">
+                  <span className="mr-2">›</span> Fale Conosco
                 </Link>
               </li>
               <li>
-                <Link href="/talktous" className="text-green-100 hover:text-accent transition-colors flex items-center">
-                  <span className="mr-2">›</span> Fale Conosco
+                <Link href="/carrinho" className="text-green-100 hover:text-accent transition-colors flex items-center">
+                  <span className="mr-2">›</span> Carrinho
                 </Link>
               </li>
             </ul>
@@ -120,7 +140,7 @@ function Footer() {
               </li>
               <li className="flex items-center">
                 <FontAwesomeIcon icon={faPhone} className="mr-3 text-accent" />
-                <span>(19) 996188008</span>
+                <span>(19) 99618-8008</span>
               </li>
               <li className="flex items-center">
                 <FontAwesomeIcon icon={faEnvelope} className="mr-3 text-accent" />
@@ -136,8 +156,8 @@ function Footer() {
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-xs text-green-300">
           <p>&copy; {currentYear} EconAgro. Todos os direitos reservados.</p>
           <div className="flex space-x-4 mt-2 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
-            <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
+            <span className="text-green-500">Termos de Uso</span>
+            <span className="text-green-500">Política de Privacidade</span>
           </div>
         </div>
       </div>
