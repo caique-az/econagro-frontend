@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { categories } from '../data/categories';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLeaf, faPhone, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -107,26 +108,13 @@ function Footer() {
           <div>
             <h4 className="text-lg font-bold mb-6 border-b border-green-700 pb-2 inline-block">Categorias</h4>
             <ul className="space-y-3 text-sm">
-              <li>
-                <Link href="/categoria/Grãos" className="text-green-100 hover:text-accent transition-colors flex items-center">
-                  <span className="mr-2">›</span> Grãos
-                </Link>
-              </li>
-              <li>
-                <Link href="/categoria/Frutas" className="text-green-100 hover:text-accent transition-colors flex items-center">
-                  <span className="mr-2">›</span> Frutas
-                </Link>
-              </li>
-              <li>
-                <Link href="/categoria/Legumes" className="text-green-100 hover:text-accent transition-colors flex items-center">
-                  <span className="mr-2">›</span> Legumes
-                </Link>
-              </li>
-              <li>
-                <Link href="/categoria/Verduras" className="text-green-100 hover:text-accent transition-colors flex items-center">
-                  <span className="mr-2">›</span> Verduras
-                </Link>
-              </li>
+              {categories.map((cat) => (
+                <li key={cat.name}>
+                  <Link href={`/categoria/${cat.name}`} className="text-green-100 hover:text-accent transition-colors flex items-center">
+                    <span className="mr-2">›</span> {cat.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

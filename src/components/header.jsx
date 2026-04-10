@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../context/CartContext';
 import { useSearch } from '../context/SearchContext';
+import { categories } from '../data/categories';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faLeaf, faMagnifyingGlass, faBars, faTimes, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
@@ -161,10 +162,11 @@ function Header() {
             <nav className="flex flex-col space-y-1 pt-2">
               <h3 className="text-white/50 text-xs font-bold uppercase tracking-wider mb-2 px-2">Navegação</h3>
               <MobileNavLink href="/" onClick={() => setIsMenuOpen(false)}>Início</MobileNavLink>
-              <MobileNavLink href="/categoria/Grãos" onClick={() => setIsMenuOpen(false)}>Grãos</MobileNavLink>
-              <MobileNavLink href="/categoria/Frutas" onClick={() => setIsMenuOpen(false)}>Frutas</MobileNavLink>
-              <MobileNavLink href="/categoria/Legumes" onClick={() => setIsMenuOpen(false)}>Legumes</MobileNavLink>
-              <MobileNavLink href="/categoria/Verduras" onClick={() => setIsMenuOpen(false)}>Verduras</MobileNavLink>
+              {categories.map((cat) => (
+                <MobileNavLink key={cat.name} href={`/categoria/${cat.name}`} onClick={() => setIsMenuOpen(false)}>
+                  {cat.name}
+                </MobileNavLink>
+              ))}
               <MobileNavLink href="/talktous" onClick={() => setIsMenuOpen(false)}>Fale Conosco</MobileNavLink>
               <MobileNavLink href="/aboutus" onClick={() => setIsMenuOpen(false)}>Sobre Nós</MobileNavLink>
             </nav>
@@ -177,10 +179,9 @@ function Header() {
         <div className="container mx-auto">
           <nav className="flex justify-center">
             <NavLink href="/">Início</NavLink>
-            <NavLink href="/categoria/Grãos">Grãos</NavLink>
-            <NavLink href="/categoria/Frutas">Frutas</NavLink>
-            <NavLink href="/categoria/Legumes">Legumes</NavLink>
-            <NavLink href="/categoria/Verduras">Verduras</NavLink>
+            {categories.map((cat) => (
+              <NavLink key={cat.name} href={`/categoria/${cat.name}`}>{cat.name}</NavLink>
+            ))}
             <NavLink href="/talktous">Fale Conosco</NavLink>
             <NavLink href="/aboutus">Sobre Nós</NavLink>
           </nav>
