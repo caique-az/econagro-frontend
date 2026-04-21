@@ -31,13 +31,13 @@ const productService = {
 
       return products.map(product => {
         const id = product.id ?? product._id;
-        const img = product.img && product.img.startsWith('http')
-          ? product.img
-          : product.img
-            ? `${apiBase}${product.img}`
+        const image = product.image && product.image.startsWith('http')
+          ? product.image
+          : product.image
+            ? `${apiBase}${product.image}`
             : FALLBACK_IMAGE_PRODUCT;
 
-        return { ...product, id, img };
+        return { ...product, id, image };
       });
     } catch (error) {
       console.error('Erro no serviço de produtos:', error);
