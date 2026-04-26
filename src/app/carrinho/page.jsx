@@ -50,7 +50,7 @@ function CartPage() {
                   <div key={item.id} className="bg-white rounded-xl shadow-sm p-4 flex flex-col sm:flex-row items-center transition-shadow hover:shadow-md">
                     <div className="w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden mb-4 sm:mb-0">
                       <img
-                        src={item.img || FALLBACK_IMAGE_CART}
+                        src={item.image || FALLBACK_IMAGE_CART}
                         alt={item.name}
                         className="w-full h-full object-cover"
                         onError={handleImageError}

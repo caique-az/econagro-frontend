@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useSearch } from '../context/SearchContext';
 import productService from '../services/productService';
 import { FALLBACK_IMAGE_PRODUCT } from '../constants/images';
+import {formatPrice} from "../utils/priceUtils";
 
 function Produtos({ category }) {
   const { addToCart } = useCart();
@@ -97,7 +98,7 @@ function Produtos({ category }) {
 
                 <div className="p-4 flex flex-col flex-grow">
                   <h3 className="text-lg font-bold text-dark mb-2 line-clamp-2">{product.name}</h3>
-                  <p className="text-primary font-bold text-xl mb-4 mt-auto">{product.price}</p>
+                  <p className="text-primary font-bold text-xl mb-4 mt-auto">{formatPrice(Number(product.price))}</p>
 
                   <button
                     className={`w-full py-2 px-4 rounded-md font-bold transition-all duration-300 transform active:scale-95 ${

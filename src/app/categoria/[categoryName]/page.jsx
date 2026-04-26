@@ -3,10 +3,9 @@ import Produtos from '../../../components/Produtos';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-export default function CategoryPage({ params }) {
-  const categoryName = params.categoryName
-    ? decodeURIComponent(params.categoryName)
-    : '';
+export default async function CategoryPage({ params }) {
+  const { categoryName: rawCategoryName = '' } = await params;
+  const categoryName = decodeURIComponent(rawCategoryName);
 
   return (
     <div className="min-h-screen bg-bg-light py-8">
