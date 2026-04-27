@@ -72,7 +72,7 @@ const SobreNosPage = () => {
                             ferramentas intuitivas e eficientes que realmente fazem a diferença no dia a dia do campo.
                         </p>
                     </div>
-                    <div className="rounded-2xl overflow-hidden shadow-xl transform transition hover:scale-105 duration-300">
+                    <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl transform transition hover:scale-105 duration-300">
                         <Image
                             src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80" 
                             alt="Campo agrícola com tecnologia"
@@ -85,7 +85,7 @@ const SobreNosPage = () => {
 
                 {/* Missão, Visão e Valores */}
                 <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-                    <div className="order-2 md:order-1 rounded-2xl overflow-hidden shadow-xl transform transition hover:scale-105 duration-300">
+                    <div className="relative h-80 order-2 md:order-1 rounded-2xl overflow-hidden shadow-xl transform transition hover:scale-105 duration-300">
                         <Image
                             src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80" 
                             alt="Tecnologia no campo"
@@ -148,8 +148,8 @@ const SobreNosPage = () => {
                         {teamMembers.map((member, index) => (
                             <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                                 <div className="p-8 text-center">
-                                    <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-white shadow-md">
-                                        <Image src={member.image} alt={member.name} fill sizes="128px" className="w-full h-full object-cover" />
+                                    <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-white shadow-md">
+                                        <Image src={member.image} alt={member.name} fill sizes="128px" className="object-cover" />
                                     </div>
                                     <h3 className="text-xl font-bold text-dark mb-2">{member.name}</h3>
                                     <p className="text-primary font-medium text-sm mb-4 uppercase tracking-wider">{member.role}</p>

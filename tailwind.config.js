@@ -23,9 +23,6 @@ module.exports = {
           light: '#f9f9f9',
         }
       },
-      fontFamily: {
-        body: ['Quicksand', 'sans-serif'],
-      },
     },
   },
   plugins: [],
