@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSeedling, faChartLine, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
 
 const SobreNosPage = () => {
     const teamMembers = [
         {
-            name: 'Caique Carnargo Azevedo',
+            name: 'Caique Camargo Azevedo',
             role: 'Developer Full Stack, Analista de Sistemas e Cientista de Dados',
             image: 'https://ui-avatars.com/api/?name=Caique+Azevedo&background=17A354&color=fff&size=150',
             bio: 'Especialista em desenvolvimento de soluções completas e análise de dados para otimização de processos agrícolas.'
@@ -72,9 +73,11 @@ const SobreNosPage = () => {
                         </p>
                     </div>
                     <div className="rounded-2xl overflow-hidden shadow-xl transform transition hover:scale-105 duration-300">
-                        <img 
+                        <Image
                             src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80" 
                             alt="Campo agrícola com tecnologia"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -83,9 +86,11 @@ const SobreNosPage = () => {
                 {/* Missão, Visão e Valores */}
                 <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
                     <div className="order-2 md:order-1 rounded-2xl overflow-hidden shadow-xl transform transition hover:scale-105 duration-300">
-                        <img 
+                        <Image
                             src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80" 
                             alt="Tecnologia no campo"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -144,7 +149,7 @@ const SobreNosPage = () => {
                             <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                                 <div className="p-8 text-center">
                                     <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-white shadow-md">
-                                        <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                                        <Image src={member.image} alt={member.name} fill sizes="128px" className="w-full h-full object-cover" />
                                     </div>
                                     <h3 className="text-xl font-bold text-dark mb-2">{member.name}</h3>
                                     <p className="text-primary font-medium text-sm mb-4 uppercase tracking-wider">{member.role}</p>

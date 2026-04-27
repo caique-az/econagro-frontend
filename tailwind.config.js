@@ -18,6 +18,7 @@ module.exports = {
         error: '#e74c3c',
         success: '#2ecc71',
         gray: '#dee2e6',
+        accent: '#F9A825',
         bg: {
           light: '#f9f9f9',
         }

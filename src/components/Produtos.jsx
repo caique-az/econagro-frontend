@@ -35,7 +35,8 @@ function Produtos({ category }) {
         const data = await productService.getProducts(category);
         setProducts(data);
         setFilteredProducts(data);
-      } catch {
+      } catch (err) {
+        console.error('[productService] Falha ao carregar produtos:', err);
         setError('Erro ao carregar produtos. Tente novamente mais tarde.');
       } finally {
         setLoading(false);
