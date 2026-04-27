@@ -1,19 +1,24 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import MensagemEnviada from "../../components/MensagemEnviada";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faPaperPlane, faUser, faCommentAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faPaperPlane,
+  faUser,
+  faCommentAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ContatoPage = () => {
   const [formEnviado, setFormEnviado] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     mensagem: "",
   });
-  
+
   const [errors, setErrors] = useState({
     nome: "",
     email: "",
@@ -42,7 +47,7 @@ const ContatoPage = () => {
         error = "A mensagem deve ter pelo menos 10 caracteres.";
       }
     }
-    
+
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: error,
@@ -101,16 +106,24 @@ const ContatoPage = () => {
               <div className="w-20 h-20 bg-green-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
                 <FontAwesomeIcon icon={faEnvelope} size="2x" />
               </div>
-              <h2 className="text-3xl font-bold text-dark mb-2">Fale Conosco</h2>
+              <h2 className="text-3xl font-bold text-dark mb-2">
+                Fale Conosco
+              </h2>
               <p className="text-gray-500 max-w-lg mx-auto">
-                Estamos aqui para ajudar! Preencha o formulário abaixo e nossa equipe entrará em contato o mais breve possível.
+                Estamos aqui para ajudar! Preencha o formulário abaixo e nossa
+                equipe entrará em contato o mais breve possível.
               </p>
             </div>
 
             <form onSubmit={handleSubmit} noValidate className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="nome" className="block text-sm font-bold text-dark mb-1">Nome</label>
+                  <label
+                    htmlFor="nome"
+                    className="block text-sm font-bold text-dark mb-1"
+                  >
+                    Nome
+                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FontAwesomeIcon icon={faUser} />
@@ -123,7 +136,9 @@ const ContatoPage = () => {
                       onChange={handleChange}
                       placeholder="Seu nome completo"
                       className={`w-full pl-10 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
-                        errors.nome ? 'border-error ring-1 ring-error' : 'border-gray-300'
+                        errors.nome
+                          ? "border-error ring-1 ring-error"
+                          : "border-gray-300"
                       }`}
                     />
                   </div>
@@ -131,9 +146,14 @@ const ContatoPage = () => {
                     <p className="mt-1 text-xs text-error">{errors.nome}</p>
                   )}
                 </div>
-                
+
                 <div>
-                  <label htmlFor="email" className="block text-sm font-bold text-dark mb-1">Email</label>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-bold text-dark mb-1"
+                  >
+                    Email
+                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FontAwesomeIcon icon={faEnvelope} />
@@ -146,7 +166,9 @@ const ContatoPage = () => {
                       onChange={handleChange}
                       placeholder="seu@email.com"
                       className={`w-full pl-10 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all ${
-                        errors.email ? 'border-error ring-1 ring-error' : 'border-gray-300'
+                        errors.email
+                          ? "border-error ring-1 ring-error"
+                          : "border-gray-300"
                       }`}
                     />
                   </div>
@@ -157,7 +179,12 @@ const ContatoPage = () => {
               </div>
 
               <div>
-                <label htmlFor="mensagem" className="block text-sm font-bold text-dark mb-1">Mensagem</label>
+                <label
+                  htmlFor="mensagem"
+                  className="block text-sm font-bold text-dark mb-1"
+                >
+                  Mensagem
+                </label>
                 <div className="relative">
                   <div className="absolute top-3 left-3 pointer-events-none text-gray-400">
                     <FontAwesomeIcon icon={faCommentAlt} />
@@ -170,7 +197,9 @@ const ContatoPage = () => {
                     onChange={handleChange}
                     placeholder="Como podemos ajudar?"
                     className={`w-full pl-10 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none ${
-                      errors.mensagem ? 'border-error ring-1 ring-error' : 'border-gray-300'
+                      errors.mensagem
+                        ? "border-error ring-1 ring-error"
+                        : "border-gray-300"
                     }`}
                   />
                 </div>
@@ -180,8 +209,8 @@ const ContatoPage = () => {
               </div>
 
               <div className="pt-4">
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-secondary shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary flex items-center justify-center"
                 >
                   <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />

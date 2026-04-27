@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { categories } from '../data/categories';
-import Produtos from '../components/Produtos';
-import Image from 'next/image';
+import Link from "next/link";
+import { categories } from "../data/categories";
+import Produtos from "../components/Produtos";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -20,7 +20,7 @@ export default function Home() {
                 src={category.img}
                 alt={category.name}
                 fill
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: "cover" }}
                 className="transition-all duration-300 group-hover:brightness-75 brightness-90"
               />
               <div className="absolute inset-0 flex items-center justify-center">

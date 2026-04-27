@@ -1,10 +1,14 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationCircle, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamationCircle,
+  faEnvelope,
+  faLock,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Login() {
   const router = useRouter();
@@ -15,7 +19,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     let isValid = true;
 
     // Validar email
@@ -36,7 +40,7 @@ function Login() {
 
     if (isValid) {
       // Simulação de login bem sucedido
-      router.push('/');
+      router.push("/");
     }
   };
 
@@ -51,7 +55,10 @@ function Login() {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <label htmlFor="email-address" className="block text-sm font-bold text-dark mb-1">
+              <label
+                htmlFor="email-address"
+                className="block text-sm font-bold text-dark mb-1"
+              >
                 E-mail
               </label>
               <div className="relative">
@@ -65,7 +72,7 @@ function Login() {
                   autoComplete="email"
                   required
                   className={`appearance-none rounded-lg relative block w-full pl-10 px-3 py-2 border ${
-                    emailError ? 'border-error' : 'border-gray-300'
+                    emailError ? "border-error" : "border-gray-300"
                   } placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm shadow-sm transition-all duration-200`}
                   placeholder="Digite seu e-mail"
                   value={email}
@@ -74,14 +81,20 @@ function Login() {
               </div>
               {emailError && (
                 <p className="mt-1 text-xs text-error flex items-center">
-                  <FontAwesomeIcon icon={faExclamationCircle} className="mr-1" />
+                  <FontAwesomeIcon
+                    icon={faExclamationCircle}
+                    className="mr-1"
+                  />
                   E-mail inválido
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-bold text-dark mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-bold text-dark mb-1"
+              >
                 Senha
               </label>
               <div className="relative">
@@ -95,7 +108,7 @@ function Login() {
                   autoComplete="current-password"
                   required
                   className={`appearance-none rounded-lg relative block w-full pl-10 px-3 py-2 border ${
-                    passwordError ? 'border-error' : 'border-gray-300'
+                    passwordError ? "border-error" : "border-gray-300"
                   } placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm shadow-sm transition-all duration-200`}
                   placeholder="Digite sua senha"
                   value={password}
@@ -104,7 +117,10 @@ function Login() {
               </div>
               {passwordError && (
                 <p className="mt-1 text-xs text-error flex items-center">
-                  <FontAwesomeIcon icon={faExclamationCircle} className="mr-1" />
+                  <FontAwesomeIcon
+                    icon={faExclamationCircle}
+                    className="mr-1"
+                  />
                   Este campo é obrigatório
                 </p>
               )}
@@ -119,13 +135,19 @@ function Login() {
                 type="checkbox"
                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 cursor-pointer">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-900 cursor-pointer"
+              >
                 Lembrar-me
               </label>
             </div>
 
             <div className="text-sm">
-              <Link href="/recuperar-senha" className="font-medium text-primary hover:text-secondary transition-colors">
+              <Link
+                href="/recuperar-senha"
+                className="font-medium text-primary hover:text-secondary transition-colors"
+              >
                 Esqueceu a senha?
               </Link>
             </div>
@@ -141,7 +163,10 @@ function Login() {
           </div>
 
           <div className="text-center mt-4">
-            <Link href="/cadastro" className="block w-full text-center py-2 px-4 border border-success text-sm font-bold rounded-lg text-success hover:bg-success hover:text-white transition-all duration-200">
+            <Link
+              href="/cadastro"
+              className="block w-full text-center py-2 px-4 border border-success text-sm font-bold rounded-lg text-success hover:bg-success hover:text-white transition-all duration-200"
+            >
               Criar conta
             </Link>
           </div>

@@ -26,15 +26,15 @@ O projeto foi desenvolvido com foco em portfólio, demonstrando:
 
 ## Stack
 
-| Camada | Tecnologia |
-|---|---|
-| Framework | Next.js 16 |
-| UI | React 18 |
-| Estilização | Tailwind CSS 3 |
-| HTTP Client | Axios |
-| Ícones | Font Awesome |
-| Deploy | Vercel |
-| API | Node.js + Express + MongoDB |
+| Camada      | Tecnologia                  |
+| ----------- | --------------------------- |
+| Framework   | Next.js 16                  |
+| UI          | React 18                    |
+| Estilização | Tailwind CSS 3              |
+| HTTP Client | Axios                       |
+| Ícones      | Font Awesome                |
+| Deploy      | Vercel                      |
+| API         | Node.js + Express + MongoDB |
 
 ---
 
@@ -201,19 +201,19 @@ npm start
 
 ## Scripts
 
-| Comando | Descrição |
-|---|---|
-| `npm run dev` | Inicia ambiente de desenvolvimento |
-| `npm run build` | Gera build de produção |
-| `npm start` | Inicia build de produção |
-| `npm run lint` | Executa ESLint |
+| Comando         | Descrição                          |
+| --------------- | ---------------------------------- |
+| `npm run dev`   | Inicia ambiente de desenvolvimento |
+| `npm run build` | Gera build de produção             |
+| `npm start`     | Inicia build de produção           |
+| `npm run lint`  | Executa ESLint                     |
 
 ---
 
 ## Variáveis de ambiente
 
-| Variável | Descrição | Exemplo |
-|---|---|---|
+| Variável              | Descrição               | Exemplo                                |
+| --------------------- | ----------------------- | -------------------------------------- |
 | `NEXT_PUBLIC_API_URL` | URL base da API backend | `https://seu-backend.onrender.com/api` |
 
 ---
@@ -222,13 +222,13 @@ npm start
 
 Configuração sugerida:
 
-| Campo | Valor |
-|---|---|
-| Framework | Next.js |
-| Build Command | `npm run build` |
-| Install Command | `npm install` |
+| Campo            | Valor             |
+| ---------------- | ----------------- |
+| Framework        | Next.js           |
+| Build Command    | `npm run build`   |
+| Install Command  | `npm install`     |
 | Output Directory | Padrão do Next.js |
-| Branch | `main` |
+| Branch           | `main`            |
 
 Variável obrigatória na Vercel:
 

@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext } from "react";
 
 const SearchContext = createContext();
 
 export function SearchProvider({ children }) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const updateSearch = (term) => setSearchTerm(term);
-  const clearSearch = () => setSearchTerm('');
+  const clearSearch = () => setSearchTerm("");
 
   return (
     <SearchContext.Provider value={{ searchTerm, updateSearch, clearSearch }}>
@@ -20,7 +20,7 @@ export function SearchProvider({ children }) {
 export function useSearch() {
   const context = useContext(SearchContext);
   if (!context) {
-    throw new Error('useSearch must be used within a SearchProvider');
+    throw new Error("useSearch must be used within a SearchProvider");
   }
   return context;
 }

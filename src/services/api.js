@@ -1,17 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === "development";
 
 const resolveBaseUrl = () => {
   const envUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!envUrl) return 'http://localhost:3001/api';
-  const trimmed = envUrl.replace(/\/$/, '');
+  if (!envUrl) return "http://localhost:3001/api";
+  const trimmed = envUrl.replace(/\/$/, "");
   return /\/api$/i.test(trimmed) ? trimmed : `${trimmed}/api`;
 };
 
 const api = axios.create({
   baseURL: resolveBaseUrl(),
-  headers: { 'Content-Type': 'application/json' },
+  headers: { "Content-Type": "application/json" },
 });
 
 api.interceptors.request.use(
@@ -19,7 +19,7 @@ api.interceptors.request.use(
     if (isDev) console.log(`→ ${config.method.toUpperCase()} ${config.url}`);
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 api.interceptors.response.use(
@@ -30,7 +30,7 @@ api.interceptors.response.use(
   (error) => {
     const message = error.response?.data?.message || error.message;
     return Promise.reject({ status: error.response?.status, message });
-  }
+  },
 );
 
 export default api;

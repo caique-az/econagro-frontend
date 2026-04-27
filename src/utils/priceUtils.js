@@ -11,8 +11,16 @@
  * parsePrice(10.5)       // 10.5
  */
 export const parsePrice = (price) => {
-  if (typeof price === 'number') return price;
-  return parseFloat(String(price).replace('R$', '').replace(/\./g, '').replace(',', '.').trim()) || 0;
+  if (typeof price === "number") return price;
+  return (
+    parseFloat(
+      String(price)
+        .replace("R$", "")
+        .replace(/\./g, "")
+        .replace(",", ".")
+        .trim(),
+    ) || 0
+  );
 };
 
 /**
@@ -25,4 +33,4 @@ export const parsePrice = (price) => {
  * formatPrice(10.5) // "R$ 10,50"
  */
 export const formatPrice = (value) =>
-  value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });

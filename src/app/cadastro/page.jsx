@@ -1,10 +1,17 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEnvelope, faPhone, faLock, faCheck, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faEnvelope,
+  faPhone,
+  faLock,
+  faCheck,
+  faExclamationCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Cadastro = () => {
   const router = useRouter();
@@ -36,7 +43,7 @@ const Cadastro = () => {
     }
 
     // TODO: integrar com API de cadastro
-    router.push('/login');
+    router.push("/login");
   };
 
   return (
@@ -48,11 +55,23 @@ const Cadastro = () => {
             <div className="absolute inset-0 bg-primary opacity-50 z-0"></div>
             <div className="relative z-10">
               <h2 className="text-3xl font-bold mb-6">Junte-se à EconAgro</h2>
-              <p className="text-lg mb-8 opacity-90">Conecte-se com os melhores produtores e tenha acesso a produtos frescos e de qualidade.</p>
+              <p className="text-lg mb-8 opacity-90">
+                Conecte-se com os melhores produtores e tenha acesso a produtos
+                frescos e de qualidade.
+              </p>
               <ul className="space-y-4">
-                <li className="flex items-center"><FontAwesomeIcon icon={faCheck} className="mr-3" /> Produtos frescos</li>
-                <li className="flex items-center"><FontAwesomeIcon icon={faCheck} className="mr-3" /> Preços justos</li>
-                <li className="flex items-center"><FontAwesomeIcon icon={faCheck} className="mr-3" /> Apoio ao produtor local</li>
+                <li className="flex items-center">
+                  <FontAwesomeIcon icon={faCheck} className="mr-3" /> Produtos
+                  frescos
+                </li>
+                <li className="flex items-center">
+                  <FontAwesomeIcon icon={faCheck} className="mr-3" /> Preços
+                  justos
+                </li>
+                <li className="flex items-center">
+                  <FontAwesomeIcon icon={faCheck} className="mr-3" /> Apoio ao
+                  produtor local
+                </li>
               </ul>
             </div>
             {/* Decorative circles */}
@@ -66,7 +85,10 @@ const Cadastro = () => {
               <h1 className="text-3xl font-bold text-dark">Criar Conta</h1>
               <p className="text-gray-500 mt-2">
                 Já tem uma conta?{" "}
-                <Link href="/login" className="text-primary font-bold hover:text-secondary transition-colors no-underline">
+                <Link
+                  href="/login"
+                  className="text-primary font-bold hover:text-secondary transition-colors no-underline"
+                >
                   Faça login
                 </Link>
               </p>
@@ -75,7 +97,12 @@ const Cadastro = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-bold text-dark mb-1">Nome</label>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-bold text-dark mb-1"
+                  >
+                    Nome
+                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FontAwesomeIcon icon={faUser} />
@@ -93,7 +120,12 @@ const Cadastro = () => {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="lastname" className="block text-sm font-bold text-dark mb-1">Sobrenome</label>
+                  <label
+                    htmlFor="lastname"
+                    className="block text-sm font-bold text-dark mb-1"
+                  >
+                    Sobrenome
+                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FontAwesomeIcon icon={faUser} />
@@ -114,7 +146,12 @@ const Cadastro = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-bold text-dark mb-1">E-mail</label>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-bold text-dark mb-1"
+                  >
+                    E-mail
+                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FontAwesomeIcon icon={faEnvelope} />
@@ -132,7 +169,12 @@ const Cadastro = () => {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="number" className="block text-sm font-bold text-dark mb-1">Telefone</label>
+                  <label
+                    htmlFor="number"
+                    className="block text-sm font-bold text-dark mb-1"
+                  >
+                    Telefone
+                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FontAwesomeIcon icon={faPhone} />
@@ -152,7 +194,12 @@ const Cadastro = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="password" className="block text-sm font-bold text-dark mb-1">Senha</label>
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-bold text-dark mb-1"
+                  >
+                    Senha
+                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FontAwesomeIcon icon={faLock} />
@@ -170,7 +217,12 @@ const Cadastro = () => {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="cpassword" className="block text-sm font-bold text-dark mb-1">Confirmar Senha</label>
+                  <label
+                    htmlFor="cpassword"
+                    className="block text-sm font-bold text-dark mb-1"
+                  >
+                    Confirmar Senha
+                  </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FontAwesomeIcon icon={faLock} />
@@ -184,13 +236,16 @@ const Cadastro = () => {
                       onChange={handleChange}
                       required
                       className={`w-full pl-10 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
-                        passwordError ? 'border-error' : 'border-gray-300'
+                        passwordError ? "border-error" : "border-gray-300"
                       }`}
                     />
                   </div>
                   {passwordError && (
                     <p className="mt-1 text-xs text-error flex items-center">
-                      <FontAwesomeIcon icon={faExclamationCircle} className="mr-1" />
+                      <FontAwesomeIcon
+                        icon={faExclamationCircle}
+                        className="mr-1"
+                      />
                       {passwordError}
                     </p>
                   )}
@@ -198,27 +253,34 @@ const Cadastro = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-dark mb-2">Gênero</label>
+                <label className="block text-sm font-bold text-dark mb-2">
+                  Gênero
+                </label>
                 <div className="flex flex-wrap gap-4">
-                  {["Masculino", "Feminino", "Outros", "Prefiro não dizer"].map((gender) => (
-                    <label key={gender} className="inline-flex items-center cursor-pointer">
-                      <input
-                        type="radio"
-                        name="gender"
-                        value={gender}
-                        checked={formData.gender === gender}
-                        onChange={handleChange}
-                        className="form-radio h-4 w-4 text-primary focus:ring-primary border-gray-300"
-                      />
-                      <span className="ml-2 text-gray-700">{gender}</span>
-                    </label>
-                  ))}
+                  {["Masculino", "Feminino", "Outros", "Prefiro não dizer"].map(
+                    (gender) => (
+                      <label
+                        key={gender}
+                        className="inline-flex items-center cursor-pointer"
+                      >
+                        <input
+                          type="radio"
+                          name="gender"
+                          value={gender}
+                          checked={formData.gender === gender}
+                          onChange={handleChange}
+                          className="form-radio h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                        />
+                        <span className="ml-2 text-gray-700">{gender}</span>
+                      </label>
+                    ),
+                  )}
                 </div>
               </div>
 
               <div className="pt-4">
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-secondary shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
                   Continuar

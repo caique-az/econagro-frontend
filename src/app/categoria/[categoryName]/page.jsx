@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import Produtos from '../../../components/Produtos';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Link from "next/link";
+import Produtos from "../../../components/Produtos";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default async function CategoryPage({ params }) {
-  const { categoryName: rawCategoryName = '' } = await params;
+  const { categoryName: rawCategoryName = "" } = await params;
   const categoryName = decodeURIComponent(rawCategoryName);
 
   return (

@@ -1,14 +1,12 @@
-'use client';
+"use client";
 
-import { CartProvider } from '../context/CartContext';
-import { SearchProvider } from '../context/SearchContext';
+import { CartProvider } from "../context/CartContext";
+import { SearchProvider } from "../context/SearchContext";
 
 export function Providers({ children }) {
   return (
     <SearchProvider>
-      <CartProvider>
-        {children}
-      </CartProvider>
+      <CartProvider>{children}</CartProvider>
     </SearchProvider>
   );
 }
