@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { categories } from "../data/categories";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLeaf,
@@ -18,62 +16,12 @@ import {
 
 function Footer() {
   const currentYear = new Date().getFullYear();
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
-
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    if (!newsletterEmail.trim()) return;
-    // TODO: integrar com API de newsletter
-    setNewsletterSubmitted(true);
-  };
 
   return (
     <footer className="bg-gradient-to-br from-green-900 to-green-800 text-white mt-auto w-full">
-      {/* Newsletter Section */}
-      <div className="border-b border-green-700">
-        <div className="container mx-auto px-4 py-8 md:flex md:items-center md:justify-between">
-          <div className="mb-4 md:mb-0">
-            <h3 className="text-xl font-bold mb-1">
-              Inscreva-se na nossa Newsletter
-            </h3>
-            <p className="text-green-200 text-sm">
-              Receba ofertas exclusivas e dicas de cultivo diretamente no seu
-              e-mail.
-            </p>
-          </div>
-
-          {newsletterSubmitted ? (
-            <p className="text-accent font-semibold text-sm">
-              Obrigado! Em breve você receberá nossas novidades.
-            </p>
-          ) : (
-            <form
-              onSubmit={handleNewsletterSubmit}
-              className="flex flex-col sm:flex-row gap-2 w-full md:w-auto"
-            >
-              <input
-                type="email"
-                placeholder="Seu melhor e-mail"
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                required
-                className="px-4 py-2 rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-accent w-full md:w-64"
-              />
-              <button
-                type="submit"
-                className="bg-accent hover:bg-yellow-500 text-green-900 font-bold py-2 px-6 rounded-lg transition-colors duration-300"
-              >
-                Inscrever
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
-
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Column */}
           <div className="space-y-4">
             <Link
@@ -153,25 +101,6 @@ function Footer() {
                   <span className="mr-2">›</span> Carrinho
                 </Link>
               </li>
-            </ul>
-          </div>
-
-          {/* Categorias */}
-          <div>
-            <h4 className="text-lg font-bold mb-6 border-b border-green-700 pb-2 inline-block">
-              Categorias
-            </h4>
-            <ul className="space-y-3 text-sm">
-              {categories.map((cat) => (
-                <li key={cat.name}>
-                  <Link
-                    href={`/categoria/${cat.name}`}
-                    className="text-green-100 hover:text-accent transition-colors flex items-center"
-                  >
-                    <span className="mr-2">›</span> {cat.name}
-                  </Link>
-                </li>
-              ))}
             </ul>
           </div>
 
