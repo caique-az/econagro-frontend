@@ -62,7 +62,7 @@ Contextos expostos via `src/components/Providers.jsx`:
 
 - **`CartContext`** — carrinho em memória (sem persistência). Expõe `cart`, `addToCart`, `removeFromCart`, `updateQuantity`, `clearCart`. Consumido via `useCart()`.
 - **`SearchContext`** — termo de busca global. Expõe `searchTerm`, `updateSearch`, `clearSearch`. Consumido via `useSearch()`.
-- **`AuthContext`** *(a criar)* — auth com Bearer token. Ver seção de roadmap.
+- **`AuthContext`** — auth com Bearer token. Expõe `user`, `token`, `isAuthenticated`, `isLoading`, `login`, `register`, `logout`. O `login` aceita `rememberMe` (bool): `true` → `localStorage` (persiste entre sessões), `false` → `sessionStorage` (limpa ao fechar o browser). O `register` sempre usa `localStorage`.
 
 Todos os contextos são Client Components (`"use client"`).
 
@@ -161,7 +161,7 @@ GET /api/categories/:id
 
 Resposta: `{ _id, id, name, image, active, order }`. Só retorna ativas, ordenadas por `order` depois `name`.
 
-Token armazenado em `localStorage` com chaves `econagro:token` e `econagro:user`.
+Token armazenado com chaves `econagro:token` e `econagro:user`. Quando "Lembrar-me" está marcado usa `localStorage`; caso contrário usa `sessionStorage`. O interceptor do Axios e o init do `AuthContext` verificam ambos os storages.
 
 ---
 
@@ -173,7 +173,7 @@ Arquivos a criar/alterar:
 
 - `src/services/authService.js` — métodos `login()`, `register()`, `me()`
 - `src/context/AuthContext.jsx` — expõe `user`, `token`, `isAuthenticated`, `isLoading`, `login`, `register`, `logout`, `loadUser`
-- `src/services/api.js` — adicionar interceptor de Authorization
+- `src/services/api.js` — interceptor de Authorization lê `localStorage` e `sessionStorage`
 - `src/components/Providers.jsx` — incluir `AuthProvider`
 - `src/app/login/page.jsx` — chamar `auth.login`, loading no botão, erro real da API
 - `src/app/cadastro/page.jsx` — enviar `{ name, email, password }` (nome completo); não enviar `number`/`gender`; autenticar automaticamente com token retornado
