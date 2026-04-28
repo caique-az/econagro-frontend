@@ -8,21 +8,26 @@ import {
   faExclamationCircle,
   faEnvelope,
   faLock,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../context/AuthContext";
 
 function Login() {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [apiError, setApiError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError("");
 
     let isValid = true;
 
-    // Validar email
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
       isValid = false;
@@ -30,7 +35,6 @@ function Login() {
       setEmailError(false);
     }
 
-    // Validar senha
     if (!password) {
       setPasswordError(true);
       isValid = false;
@@ -38,9 +42,16 @@ function Login() {
       setPasswordError(false);
     }
 
-    if (isValid) {
-      // Simulação de login bem sucedido
+    if (!isValid) return;
+
+    setIsLoading(true);
+    try {
+      await login({ email, password });
       router.push("/");
+    } catch (err) {
+      setApiError(err.message || "Erro ao fazer login. Tente novamente.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,6 +64,13 @@ function Login() {
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {apiError && (
+            <div className="bg-red-50 border border-error rounded-lg p-3 flex items-center gap-2 text-sm text-error">
+              <FontAwesomeIcon icon={faExclamationCircle} />
+              {apiError}
+            </div>
+          )}
+
           <div className="rounded-md shadow-sm space-y-4">
             <div>
               <label
@@ -76,7 +94,11 @@ function Login() {
                   } placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm shadow-sm transition-all duration-200`}
                   placeholder="Digite seu e-mail"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError(false);
+                    setApiError("");
+                  }}
                 />
               </div>
               {emailError && (
@@ -112,7 +134,11 @@ function Login() {
                   } placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm shadow-sm transition-all duration-200`}
                   placeholder="Digite sua senha"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordError(false);
+                    setApiError("");
+                  }}
                 />
               </div>
               {passwordError && (
@@ -156,9 +182,13 @@ function Login() {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              disabled={isLoading}
+              className="group relative w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
             >
-              Continuar
+              {isLoading && (
+                <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
+              )}
+              {isLoading ? "Entrando..." : "Continuar"}
             </button>
           </div>
 
