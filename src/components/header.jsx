@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
 import { useSearch } from "../context/SearchContext";
 import { useAuth } from "../context/AuthContext";
-import { categories } from "../data/categories";
+import categoryService from "../services/categoryService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
@@ -25,6 +25,14 @@ function Header() {
   const { updateSearch } = useSearch();
   const { user, isAuthenticated, logout } = useAuth();
   const router = useRouter();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    categoryService
+      .getCategories()
+      .then(setCategories)
+      .catch(() => {});
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -253,7 +261,7 @@ function Header() {
               {categories.map((cat) => (
                 <MobileNavLink
                   key={cat.name}
-                  href={`/categoria/${cat.name}`}
+                  href={`/categoria/${encodeURIComponent(cat.name)}`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {cat.name}
@@ -282,7 +290,7 @@ function Header() {
           <nav className="flex justify-center">
             <NavLink href="/">Início</NavLink>
             {categories.map((cat) => (
-              <NavLink key={cat.name} href={`/categoria/${cat.name}`}>
+              <NavLink key={cat.name} href={`/categoria/${encodeURIComponent(cat.name)}`}>
                 {cat.name}
               </NavLink>
             ))}
