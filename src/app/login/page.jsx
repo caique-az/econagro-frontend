@@ -19,6 +19,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,7 +47,7 @@ function Login() {
 
     setIsLoading(true);
     try {
-      await login({ email, password });
+      await login({ email, password, rememberMe });
       router.push("/");
     } catch (err) {
       setApiError(err.message || "Erro ao fazer login. Tente novamente.");
@@ -159,6 +160,8 @@ function Login() {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer"
               />
               <label
