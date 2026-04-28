@@ -13,9 +13,10 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const persist = (tok, userData) => {
-    localStorage.setItem(TOKEN_KEY, tok);
-    localStorage.setItem(USER_KEY, JSON.stringify(userData));
+  const persist = (tok, userData, rememberMe = true) => {
+    const storage = rememberMe ? localStorage : sessionStorage;
+    storage.setItem(TOKEN_KEY, tok);
+    storage.setItem(USER_KEY, JSON.stringify(userData));
     setToken(tok);
     setUser(userData);
   };
@@ -23,12 +24,15 @@ export function AuthProvider({ children }) {
   const clear = () => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(USER_KEY);
     setToken(null);
     setUser(null);
   };
 
   useEffect(() => {
-    const storedToken = localStorage.getItem(TOKEN_KEY);
+    const storedToken =
+      localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
 
     const restore = storedToken
       ? authService.me().then((data) => ({ tok: storedToken, userData: data.data }))
@@ -44,19 +48,21 @@ export function AuthProvider({ children }) {
       .catch(() => {
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(USER_KEY);
+        sessionStorage.removeItem(TOKEN_KEY);
+        sessionStorage.removeItem(USER_KEY);
       })
       .finally(() => setIsLoading(false));
   }, []);
 
-  const login = async ({ email, password }) => {
+  const login = async ({ email, password, rememberMe = true }) => {
     const data = await authService.login({ email, password });
-    persist(data.token, data.data);
+    persist(data.token, data.data, rememberMe);
     return data;
   };
 
   const register = async ({ name, email, password }) => {
     const data = await authService.register({ name, email, password });
-    persist(data.token, data.data);
+    persist(data.token, data.data, true);
     return data;
   };
 
