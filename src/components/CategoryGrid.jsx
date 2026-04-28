@@ -13,7 +13,7 @@ function CategoryGrid() {
     categoryService
       .getCategories()
       .then(setCategories)
-      .catch(() => {})
+      .catch((err) => console.error("[CategoryGrid] falha ao carregar categorias:", err))
       .finally(() => setLoading(false));
   }, []);
 
@@ -31,7 +31,7 @@ function CategoryGrid() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-      {categories.map((category) => (
+      {categories.map((category, index) => (
         <Link
           key={category.id}
           href={`/categoria/${encodeURIComponent(category.name)}`}
@@ -42,6 +42,8 @@ function CategoryGrid() {
             src={category.image}
             alt={category.name}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            loading={index === 0 ? "eager" : "lazy"}
             style={{ objectFit: "cover" }}
             className="transition-all duration-300 group-hover:brightness-75 brightness-90"
           />
