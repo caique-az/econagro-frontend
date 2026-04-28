@@ -16,6 +16,12 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("econagro:token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
     if (isDev) console.log(`→ ${config.method.toUpperCase()} ${config.url}`);
     return config;
   },
