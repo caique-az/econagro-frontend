@@ -7,24 +7,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faEnvelope,
-  faPhone,
   faLock,
   faCheck,
   faExclamationCircle,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../context/AuthContext";
 
 const Cadastro = () => {
   const router = useRouter();
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
     email: "",
-    number: "",
     password: "",
     cpassword: "",
-    gender: "",
   });
   const [passwordError, setPasswordError] = useState("");
+  const [apiError, setApiError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,18 +34,33 @@ const Cadastro = () => {
     if (name === "cpassword" || name === "password") {
       setPasswordError("");
     }
+    setApiError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError("");
 
     if (formData.password !== formData.cpassword) {
       setPasswordError("As senhas não correspondem.");
       return;
     }
 
-    // TODO: integrar com API de cadastro
-    router.push("/login");
+    const fullName = `${formData.name.trim()} ${formData.lastname.trim()}`.trim();
+
+    setIsLoading(true);
+    try {
+      await register({
+        name: fullName,
+        email: formData.email,
+        password: formData.password,
+      });
+      router.push("/");
+    } catch (err) {
+      setApiError(err.message || "Erro ao criar conta. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -74,7 +91,6 @@ const Cadastro = () => {
                 </li>
               </ul>
             </div>
-            {/* Decorative circles */}
             <div className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-secondary opacity-20 z-0"></div>
             <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-secondary opacity-20 z-0"></div>
           </div>
@@ -95,6 +111,13 @@ const Cadastro = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {apiError && (
+                <div className="bg-red-50 border border-error rounded-lg p-3 flex items-center gap-2 text-sm text-error">
+                  <FontAwesomeIcon icon={faExclamationCircle} />
+                  {apiError}
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label
@@ -144,51 +167,27 @@ const Cadastro = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-bold text-dark mb-1"
-                  >
-                    E-mail
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <FontAwesomeIcon icon={faEnvelope} />
-                    </div>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      placeholder="seu@email.com"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    />
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-bold text-dark mb-1"
+                >
+                  E-mail
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <FontAwesomeIcon icon={faEnvelope} />
                   </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="number"
-                    className="block text-sm font-bold text-dark mb-1"
-                  >
-                    Telefone
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <FontAwesomeIcon icon={faPhone} />
-                    </div>
-                    <input
-                      type="tel"
-                      name="number"
-                      id="number"
-                      placeholder="(00) 00000-0000"
-                      value={formData.number}
-                      onChange={handleChange}
-                      className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    />
-                  </div>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="seu@email.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  />
                 </div>
               </div>
 
@@ -252,38 +251,16 @@ const Cadastro = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-bold text-dark mb-2">
-                  Gênero
-                </label>
-                <div className="flex flex-wrap gap-4">
-                  {["Masculino", "Feminino", "Outros", "Prefiro não dizer"].map(
-                    (gender) => (
-                      <label
-                        key={gender}
-                        className="inline-flex items-center cursor-pointer"
-                      >
-                        <input
-                          type="radio"
-                          name="gender"
-                          value={gender}
-                          checked={formData.gender === gender}
-                          onChange={handleChange}
-                          className="form-radio h-4 w-4 text-primary focus:ring-primary border-gray-300"
-                        />
-                        <span className="ml-2 text-gray-700">{gender}</span>
-                      </label>
-                    ),
-                  )}
-                </div>
-              </div>
-
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-secondary shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  disabled={isLoading}
+                  className="w-full flex justify-center items-center gap-2 bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-secondary shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  Continuar
+                  {isLoading && (
+                    <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
+                  )}
+                  {isLoading ? "Criando conta..." : "Continuar"}
                 </button>
               </div>
             </form>
