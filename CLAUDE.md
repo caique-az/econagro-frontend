@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Contexto do projeto
+
+EconAgro é um projeto fullstack de portfólio.
+
+- Frontend: Next.js + React + Tailwind, deploy na Vercel.
+- Backend: Node.js + Express + Mongoose, deploy no Render.
+- Banco: MongoDB Atlas.
+
 ## Commands
 
 ```bash
@@ -211,7 +219,7 @@ Telas que afirmam sucesso sem backend:
 ## Hard constraints
 
 - Não hardcodar URL do backend em componentes — sempre via `NEXT_PUBLIC_API_URL`.
-- Não usar `withCredentials` enquanto auth for Bearer token.
+- Não usar `withCredentials` — CORS está alinhado com Bearer token, não com cookie.
 - Não enviar `password` ou token para console.
 - Não vazar token em URL.
 - Não usar categorias estáticas como fonte final de verdade.
