@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
 import { useSearch } from "../context/SearchContext";
+import { useAuth } from "../context/AuthContext";
 import { categories } from "../data/categories";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,12 +16,21 @@ import {
   faTimes,
   faPhone,
   faEnvelope,
+  faUser,
+  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
   const { cart } = useCart();
   const { updateSearch } = useSearch();
+  const { user, isAuthenticated, logout } = useAuth();
   const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+    router.push("/");
+  };
   const [localSearchTerm, setLocalSearchTerm] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -128,19 +138,38 @@ function Header() {
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center space-x-6">
               <div className="flex items-center space-x-2 text-white/90">
-                <Link
-                  href="/login"
-                  className="hover:text-white font-medium transition-colors py-2 px-4 rounded-full hover:bg-white/10"
-                >
-                  Entrar
-                </Link>
-                <span className="text-white/40">|</span>
-                <Link
-                  href="/cadastro"
-                  className="bg-white text-primary hover:bg-accent hover:text-green-900 font-bold py-2 px-6 rounded-full transition-all shadow-md transform hover:-translate-y-0.5"
-                >
-                  Criar Conta
-                </Link>
+                {isAuthenticated ? (
+                  <>
+                    <span className="flex items-center gap-2 font-medium py-2 px-4">
+                      <FontAwesomeIcon icon={faUser} />
+                      {user?.name?.split(" ")[0]}
+                    </span>
+                    <span className="text-white/40">|</span>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 hover:text-white font-medium transition-colors py-2 px-4 rounded-full hover:bg-white/10"
+                    >
+                      <FontAwesomeIcon icon={faRightFromBracket} />
+                      Sair
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      className="hover:text-white font-medium transition-colors py-2 px-4 rounded-full hover:bg-white/10"
+                    >
+                      Entrar
+                    </Link>
+                    <span className="text-white/40">|</span>
+                    <Link
+                      href="/cadastro"
+                      className="bg-white text-primary hover:bg-accent hover:text-green-900 font-bold py-2 px-6 rounded-full transition-all shadow-md transform hover:-translate-y-0.5"
+                    >
+                      Criar Conta
+                    </Link>
+                  </>
+                )}
               </div>
 
               <Link
@@ -180,20 +209,38 @@ function Header() {
             </form>
 
             <div className="grid grid-cols-2 gap-3 pt-2">
-              <Link
-                href="/login"
-                className="text-center py-3 rounded-lg bg-green-800 text-white font-medium hover:bg-green-900"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Entrar
-              </Link>
-              <Link
-                href="/cadastro"
-                className="text-center py-3 rounded-lg bg-white text-primary font-bold hover:bg-gray-100"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Criar Conta
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <span className="flex items-center justify-center gap-2 py-3 rounded-lg bg-green-800 text-white font-medium col-span-1">
+                    <FontAwesomeIcon icon={faUser} />
+                    {user?.name?.split(" ")[0]}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center justify-center gap-2 py-3 rounded-lg bg-white text-primary font-bold hover:bg-gray-100 col-span-1"
+                  >
+                    <FontAwesomeIcon icon={faRightFromBracket} />
+                    Sair
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="text-center py-3 rounded-lg bg-green-800 text-white font-medium hover:bg-green-900"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Entrar
+                  </Link>
+                  <Link
+                    href="/cadastro"
+                    className="text-center py-3 rounded-lg bg-white text-primary font-bold hover:bg-gray-100"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Criar Conta
+                  </Link>
+                </>
+              )}
             </div>
 
             <nav className="flex flex-col space-y-1 pt-2">
