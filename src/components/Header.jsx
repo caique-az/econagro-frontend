@@ -25,7 +25,11 @@ function Header() {
   const { updateSearch } = useSearch();
   const { user, isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
+
   const [categories, setCategories] = useState([]);
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     categoryService
@@ -39,9 +43,6 @@ function Header() {
     setIsMenuOpen(false);
     router.push("/");
   };
-  const [localSearchTerm, setLocalSearchTerm] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   const itemCount = cart.reduce((total, item) => total + item.cartQuantity, 0);
 
