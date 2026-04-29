@@ -54,13 +54,13 @@ Em produção aponta para `https://econagro-backend.onrender.com`. O `src/servic
 
 Todas as páginas ficam em `src/app/`:
 
-| Rota | Arquivo |
-|---|---|
-| `/` | `page.jsx` — home com categorias e produtos em destaque |
-| `/categoria/[categoryName]` | `categoria/[categoryName]/page.jsx` — produtos filtrados por categoria |
-| `/carrinho` | `carrinho/page.jsx` |
-| `/login`, `/cadastro`, `/recuperar-senha`, `/redefinir-senha` | páginas de autenticação |
-| `/talktous`, `/aboutus` | páginas institucionais |
+| Rota                                                          | Arquivo                                                                |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `/`                                                           | `page.jsx` — home com categorias e produtos em destaque                |
+| `/categoria/[categoryName]`                                   | `categoria/[categoryName]/page.jsx` — produtos filtrados por categoria |
+| `/carrinho`                                                   | `carrinho/page.jsx`                                                    |
+| `/login`, `/cadastro`, `/recuperar-senha`, `/redefinir-senha` | páginas de autenticação                                                |
+| `/talktous`, `/aboutus`                                       | páginas institucionais                                                 |
 
 O `layout.jsx` raiz envolve tudo com `<Providers>`, `<Header>` e `<Footer>`.
 
@@ -98,13 +98,13 @@ Todos os contextos são Client Components (`"use client"`).
 
 Tailwind CSS com tema em `tailwind.config.js`:
 
-| Token | Valor |
-|---|---|
-| `primary` | `#17A354` (verde) |
-| `secondary` | `#2e7d32` |
-| `accent` | `#F9A825` (amarelo) |
-| `dark` | `#333333` |
-| `bg-light` | `#f9f9f9` |
+| Token               | Valor                  |
+| ------------------- | ---------------------- |
+| `primary`           | `#17A354` (verde)      |
+| `secondary`         | `#2e7d32`              |
+| `accent`            | `#F9A825` (amarelo)    |
+| `dark`              | `#333333`              |
+| `bg-light`          | `#f9f9f9`              |
 | `error` / `success` | vermelho / verde claro |
 
 Fonte: Quicksand via `next/font`. Ícones: FontAwesome — `config.autoAddCss = false` no layout para evitar conflito; estilos importados manualmente.

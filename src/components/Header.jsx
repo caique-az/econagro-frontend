@@ -296,7 +296,10 @@ function Header() {
           <nav className="flex justify-center">
             <NavLink href="/">Início</NavLink>
             {categories.map((cat) => (
-              <NavLink key={cat.name} href={`/categoria/${encodeURIComponent(cat.name)}`}>
+              <NavLink
+                key={cat.name}
+                href={`/categoria/${encodeURIComponent(cat.name)}`}
+              >
                 {cat.name}
               </NavLink>
             ))}

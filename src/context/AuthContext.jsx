@@ -39,26 +39,26 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const storedToken =
-        localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
+      localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
 
     const restore = storedToken
-        ? authService.me().then((data) => ({
+      ? authService.me().then((data) => ({
           tok: storedToken,
           userData: data.data,
         }))
-        : Promise.resolve(null);
+      : Promise.resolve(null);
 
     restore
-        .then((result) => {
-          if (result) {
-            setToken(result.tok);
-            setUser(result.userData);
-          }
-        })
-        .catch(() => {
-          clearStoredAuth();
-        })
-        .finally(() => setIsLoading(false));
+      .then((result) => {
+        if (result) {
+          setToken(result.tok);
+          setUser(result.userData);
+        }
+      })
+      .catch(() => {
+        clearStoredAuth();
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const login = async ({ email, password, rememberMe = true }) => {
@@ -78,19 +78,19 @@ export function AuthProvider({ children }) {
   };
 
   return (
-      <AuthContext.Provider
-          value={{
-            user,
-            token,
-            isAuthenticated: !!user,
-            isLoading,
-            login,
-            register,
-            logout,
-          }}
-      >
-        {children}
-      </AuthContext.Provider>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        isAuthenticated: !!user,
+        isLoading,
+        login,
+        register,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
 }
 

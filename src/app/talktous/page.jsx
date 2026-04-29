@@ -73,8 +73,7 @@ const ContatoPage = () => {
       setIsSuccess(true);
     } catch (err) {
       setApiError(
-        err.message ||
-          "Não foi possível enviar sua mensagem. Tente novamente.",
+        err.message || "Não foi possível enviar sua mensagem. Tente novamente.",
       );
     } finally {
       setIsLoading(false);

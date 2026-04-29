@@ -65,7 +65,10 @@ function ResetPasswordForm() {
       setIsSuccess(true);
       setTimeout(() => router.push("/login"), 3000);
     } catch (err) {
-      setError(err.message || "Não foi possível redefinir a senha. O link pode ter expirado.");
+      setError(
+        err.message ||
+          "Não foi possível redefinir a senha. O link pode ter expirado.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -186,13 +189,15 @@ function ResetPassword() {
     <div className="min-h-[80vh] flex items-center justify-center bg-bg-light py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-lg">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-dark mb-2">
-            Redefinir Senha
-          </h1>
+          <h1 className="text-3xl font-bold text-dark mb-2">Redefinir Senha</h1>
           <p className="text-gray-500">Escolha uma nova senha para sua conta</p>
         </div>
 
-        <Suspense fallback={<p className="text-center text-gray-500 text-sm">Carregando...</p>}>
+        <Suspense
+          fallback={
+            <p className="text-center text-gray-500 text-sm">Carregando...</p>
+          }
+        >
           <ResetPasswordForm />
         </Suspense>
       </div>

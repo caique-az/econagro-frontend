@@ -13,7 +13,9 @@ function CategoryGrid() {
     categoryService
       .getCategories()
       .then(setCategories)
-      .catch((err) => console.error("[CategoryGrid] falha ao carregar categorias:", err))
+      .catch((err) =>
+        console.error("[CategoryGrid] falha ao carregar categorias:", err),
+      )
       .finally(() => setLoading(false));
   }, []);
 
