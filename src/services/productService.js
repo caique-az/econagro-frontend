@@ -2,13 +2,19 @@ import api from "./api";
 import { FALLBACK_IMAGE_PRODUCT } from "../constants/images";
 
 const productService = {
-  async getProducts(category) {
+  async getProducts({ category, search } = {}) {
     try {
       const endpoint = category
         ? `/products/category/${encodeURIComponent(category)}`
         : "/products";
 
-      const response = await api.get(endpoint);
+      const params = new URLSearchParams();
+      if (!category && search?.trim()) {
+        params.set("search", search.trim());
+      }
+
+      const query = params.toString();
+      const response = await api.get(query ? `${endpoint}?${query}` : endpoint);
 
       let products = [];
       if (Array.isArray(response.data)) {
