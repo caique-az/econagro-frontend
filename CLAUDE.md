@@ -28,6 +28,14 @@ npm run lint
 npm run build
 ```
 
+Se alguma mudança quebrar build por uso de API de browser:
+
+- revisar `localStorage`;
+- revisar `sessionStorage`;
+- revisar `window`;
+- garantir `typeof window !== "undefined"`;
+- garantir que componentes com hooks tenham `"use client"`.
+
 Não há testes automatizados configurados no projeto ainda (Testing Library instalada, mas sem Jest/Vitest).
 
 ## Variáveis de ambiente
@@ -51,7 +59,7 @@ Todas as páginas ficam em `src/app/`:
 | `/` | `page.jsx` — home com categorias e produtos em destaque |
 | `/categoria/[categoryName]` | `categoria/[categoryName]/page.jsx` — produtos filtrados por categoria |
 | `/carrinho` | `carrinho/page.jsx` |
-| `/login`, `/cadastro`, `/recuperar-senha` | páginas de autenticação |
+| `/login`, `/cadastro`, `/recuperar-senha`, `/redefinir-senha` | páginas de autenticação |
 | `/talktous`, `/aboutus` | páginas institucionais |
 
 O `layout.jsx` raiz envolve tudo com `<Providers>`, `<Header>` e `<Footer>`.
@@ -70,6 +78,8 @@ Todos os contextos são Client Components (`"use client"`).
 
 - **`api.js`** — instância Axios configurada. Em dev, loga requests/responses no console. Erros normalizados para `{ status, message }`. Deve incluir interceptor de Authorization com Bearer token (lendo `localStorage` apenas quando `typeof window !== 'undefined'`).
 - **`productService.js`** — busca produtos. Resolve imagens relativas para URL absoluta e aplica fallback (`src/constants/images.js`).
+- **`authService.js`** — `login()`, `register()`, `me()`, `forgotPassword({ email })`, `resetPassword({ token, password })`.
+- **`contactService.js`** — `sendMessage({ name, email, message })` — chama `POST /contact`.
 
 ### Componente `Produtos`
 
@@ -77,7 +87,12 @@ Todos os contextos são Client Components (`"use client"`).
 
 ### Hook `useCartLogic`
 
-`src/hooks/useCartLogic.jsx` — cálculo de subtotal, frete e desconto. Cupom promocional tem TODO para `POST /discounts/validate` — backend não implementa essa rota ainda.
+`src/hooks/useCartLogic.jsx` — cálculo de subtotal e frete. Cupom promocional foi removido completamente. Usa `cartQuantity` (quantidade escolhida no carrinho) em vez de `quantity` (estoque do produto vindo do backend).
+
+### Semântica de `quantity` vs `cartQuantity`
+
+- `product.quantity` = estoque vindo do backend. Não alterar.
+- `item.cartQuantity` = quantidade escolhida pelo usuário no carrinho. Usar em todo lugar que representa quantidade no carrinho (exibição, cálculo de total, incremento/decremento).
 
 ### Estilização
 
@@ -125,9 +140,11 @@ Se encontrar erro crasso, corrigir diretamente. Se for decisão arquitetural ace
 Auth usa Bearer token — **não** usar cookie/httpOnly, **não** usar `withCredentials`.
 
 ```
-POST /api/auth/register   { name, email, password }
-POST /api/auth/login      { email, password }
-GET  /api/auth/me         Authorization: Bearer <token>
+POST /api/auth/register        { name, email, password }
+POST /api/auth/login           { email, password }
+GET  /api/auth/me              Authorization: Bearer <token>
+POST /api/auth/forgot-password { email }
+POST /api/auth/reset-password  { token, password }
 ```
 
 Resposta de sucesso:
@@ -161,70 +178,149 @@ GET /api/categories/:id
 
 Resposta: `{ _id, id, name, image, active, order }`. Só retorna ativas, ordenadas por `order` depois `name`.
 
+Contato:
+
+```
+POST /api/contact  { name, email, message }
+```
+
 Token armazenado com chaves `econagro:token` e `econagro:user`. Quando "Lembrar-me" está marcado usa `localStorage`; caso contrário usa `sessionStorage`. O interceptor do Axios e o init do `AuthContext` verificam ambos os storages.
 
 ---
 
-## Roadmap de prioridades
+## Plano de implementação
 
-### Prioridade 1 — Autenticação real
+### Prioridade 1 — Remover completamente a feature de cupom ✅
 
-Arquivos a criar/alterar:
+O carrinho não possui mais UI nem lógica de código promocional. Cupom foi removido sem substituto porque o backend não implementa `/discounts/validate`.
 
-- `src/services/authService.js` — métodos `login()`, `register()`, `me()`
-- `src/context/AuthContext.jsx` — expõe `user`, `token`, `isAuthenticated`, `isLoading`, `login`, `register`, `logout`, `loadUser`
-- `src/services/api.js` — interceptor de Authorization lê `localStorage` e `sessionStorage`
-- `src/components/Providers.jsx` — incluir `AuthProvider`
-- `src/app/login/page.jsx` — chamar `auth.login`, loading no botão, erro real da API
-- `src/app/cadastro/page.jsx` — enviar `{ name, email, password }` (nome completo); não enviar `number`/`gender`; autenticar automaticamente com token retornado
-- `src/components/Header.jsx` — mostrar nome/Sair quando logado; Entrar/Criar Conta quando não logado
+Arquivos afetados:
 
-Não implementar: cookie httpOnly, refresh token, OAuth, admin UI, recuperação de senha.
+- `src/hooks/useCartLogic.jsx` — removidos: `promoCode`, `setPromoCode`, `promoDiscount`, `promoError`, `promoSuccess`, `applyPromoCode`. `calculateTotal` simplificado para subtotal + frete.
+- `src/app/carrinho/page.jsx` — removida toda a UI de cupom (input, botão "Aplicar", mensagens, linha de desconto).
 
-### Prioridade 2 — Categorias dinâmicas
+### Prioridade 2 — Corrigir `quantity` para `cartQuantity` ✅
 
-Arquivos a criar/alterar:
+No backend, `quantity` significa estoque do produto. No carrinho do frontend, a quantidade escolhida pelo usuário agora usa `cartQuantity`.
 
-- `src/services/categoryService.js` — método `getCategories()` com resolução de imagem igual ao `productService`
-- `src/app/page.jsx` — buscar categorias da API (componente client `CategoryGrid`)
-- `src/components/Header.jsx` — carregar categorias via `categoryService`; fallback silencioso se API cair
-- `src/components/Footer.jsx` — remover seção de categorias (duplicação desnecessária)
-- `src/data/categories.jsx` — parar de usar como fonte de verdade
-- Links de categoria devem usar `encodeURIComponent(cat.name)`
+Arquivos afetados:
 
-### Prioridade 3 — Renomear quantity no carrinho
+- `src/context/CartContext.jsx` — `addToCart` usa `{ ...product, cartQuantity: 1 }`, `updateQuantity` usa `cartQuantity`.
+- `src/components/Header.jsx` — contador usa `item.cartQuantity`.
+- `src/app/carrinho/page.jsx` — exibição e controles usam `item.cartQuantity`.
+- `src/hooks/useCartLogic.jsx` — `calculateTotal` multiplica `parsePrice(item.price) * item.cartQuantity`.
 
-`CartContext` usa `quantity` para quantidade no carrinho, mas no backend `quantity` = estoque do produto.
+### Prioridade 3 — Padronizar cadastro com o backend atual ✅
 
-- Renomear para `cartQuantity` em `CartContext`, na página do carrinho, em `useCartLogic` e no contador do header.
-- Preservar `product.quantity` como estoque.
+O formulário de cadastro pede apenas nome completo, e-mail, senha e confirmação de senha. Envia `{ name, email, password }` para o backend.
 
-### Prioridade 4 — Placeholders honestos
+Arquivo afetado:
 
-Telas que afirmam sucesso sem backend:
+- `src/app/cadastro/page.jsx` — substituídos campos separados `name` + `lastname` por campo único "Nome completo". Removidos campos inexistentes no backend.
 
-- **Recuperação de senha** — backend não implementa. Esconder link ou exibir mensagem honesta de indisponibilidade.
-- **Fale Conosco** — não envia para API. Deixar claro que é demonstração ou remover.
-- **Newsletter** — não chama API. Remover campo ou marcar como futura funcionalidade.
-- **Cupom promocional** — remover UI enquanto backend não tiver `/discounts/validate`.
+### Prioridade 4 — Header deve respeitar `AuthContext.isLoading` ✅
+
+Enquanto o `AuthContext` restaura a sessão via `/auth/me`, o Header exibe placeholder discreto na área de auth para evitar flicker visual entre estado deslogado e logado.
+
+Arquivo afetado:
+
+- `src/components/Header.jsx` — consome `isLoading` do `useAuth()` e exibe `"..."` na área de auth durante carregamento.
+
+### Prioridade 5 — Integrar recuperação de senha ao backend real
+
+Fluxo esperado:
+
+1. Usuário acessa `/recuperar-senha`, informa e-mail.
+2. Frontend chama `POST /auth/forgot-password { email }`.
+3. Tela mostra mensagem genérica independente de o e-mail existir.
+4. Usuário recebe link para `/redefinir-senha?token=<token>`.
+5. Usuário informa nova senha; frontend chama `POST /auth/reset-password { token, password }`.
+6. Após sucesso, redireciona para `/login`.
+
+Arquivos afetados:
+
+- `src/services/authService.js` — adicionar `forgotPassword({ email })` e `resetPassword({ token, password })`.
+- `src/app/recuperar-senha/page.jsx` — chamar backend real, não simular.
+- `src/app/redefinir-senha/page.jsx` — criar página com `useSearchParams` para ler token.
+
+Mensagem de sucesso para forgot-password (não revelar se e-mail existe):
+
+```
+Se o e-mail informado estiver cadastrado, você receberá um link de recuperação em instantes.
+```
+
+Proibido: `console.log(token)`.
+
+### Prioridade 6 — Integrar Fale Conosco ao backend real
+
+Endpoint:
+
+```
+POST /contact  { name, email, message }
+```
+
+Arquivos afetados:
+
+- `src/services/contactService.js` — criar com `sendMessage({ name, email, message })`.
+- `src/app/talktous/page.jsx` — chamar `contactService.sendMessage`, mostrar loading, bloquear duplo submit, mostrar sucesso/erro real.
+
+Não usar EmailJS, SMTP, API key de e-mail no browser.
+
+### Prioridade 7 — Atualizar `CLAUDE.md`
+
+Refletir no CLAUDE.md todas as mudanças acima após conclusão.
+
+---
+
+## Validação final
+
+Rodar sempre:
+
+```bash
+npm run lint
+npm run build
+```
+
+Teste manual mínimo:
+
+1. Cadastro com nome/e-mail/senha.
+2. Login com "Lembrar-me" marcado.
+3. Login com "Lembrar-me" desmarcado.
+4. Recarregar página e verificar Header sem flicker grosseiro.
+5. Adicionar produto ao carrinho.
+6. Aumentar/diminuir quantidade no carrinho.
+7. Confirmar que `cartQuantity` não destrói `quantity` do produto.
+8. Verificar que cupom não existe mais.
+9. Solicitar recuperação de senha com e-mail qualquer.
+10. Ver mensagem genérica.
+11. Abrir `/redefinir-senha?token=fake` e verificar erro controlado.
+12. Enviar Fale Conosco com dados válidos.
+13. Simular erro de API no Fale Conosco e verificar mensagem de erro.
+
+---
+
+## Hard constraints
+
+- Não implementar backend neste repositório.
+- Não enviar e-mail diretamente do frontend.
+- Não usar API key de e-mail no browser.
+- Não recriar cupom.
+- Não usar `withCredentials` — CORS está alinhado com Bearer token, não com cookie.
+- Não trocar Bearer token por cookie.
+- Não migrar para TypeScript.
+- Não fazer admin UI.
+- Não mexer no design inteiro.
+- Não manter sucesso fake onde existe integração real esperada.
+- Não logar token, senha ou dados sensíveis no console.
+- Não hardcodar URL do backend em componente — sempre via `NEXT_PUBLIC_API_URL`.
+- Não vazar token em URL.
+- Usar services para chamadas HTTP — manter Axios centralizado em `src/services/api.js`.
+- `localStorage` só existe no browser — checar `typeof window !== 'undefined'` antes de acessar.
+- Componentes com hooks de estado/contexto precisam de `"use client"`.
+- Não usar categorias estáticas como fonte final de verdade.
 
 ### Prioridades futuras (não iniciar sem pedido explícito)
 
 - Admin UI (somente após auth real integrada)
 - Testes frontend (Vitest ou Jest)
 - CI com GitHub Actions
-
----
-
-## Hard constraints
-
-- Não hardcodar URL do backend em componentes — sempre via `NEXT_PUBLIC_API_URL`.
-- Não usar `withCredentials` — CORS está alinhado com Bearer token, não com cookie.
-- Não enviar `password` ou token para console.
-- Não vazar token em URL.
-- Não usar categorias estáticas como fonte final de verdade.
-- Não misturar admin UI antes de auth real estar integrada.
-- Não migrar para TypeScript.
-- Não mudar design inteiro durante integração de API.
-- `localStorage` só existe no browser — checar `typeof window !== 'undefined'` antes de acessar.
-- Componentes com hooks de estado/contexto precisam de `"use client"`.
