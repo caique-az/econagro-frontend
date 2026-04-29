@@ -19,7 +19,6 @@ const Cadastro = () => {
   const { register } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
-    lastname: "",
     email: "",
     password: "",
     cpassword: "",
@@ -46,13 +45,11 @@ const Cadastro = () => {
       return;
     }
 
-    const fullName = `${formData.name.trim()} ${formData.lastname.trim()}`.trim();
-
     setIsLoading(true);
     try {
       await register({
-        name: fullName,
-        email: formData.email,
+        name: formData.name.trim(),
+        email: formData.email.trim(),
         password: formData.password,
       });
       router.push("/");
@@ -118,52 +115,27 @@ const Cadastro = () => {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-bold text-dark mb-1"
-                  >
-                    Nome
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <FontAwesomeIcon icon={faUser} />
-                    </div>
-                    <input
-                      type="text"
-                      name="name"
-                      id="name"
-                      placeholder="Seu nome"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    />
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-bold text-dark mb-1"
+                >
+                  Nome completo
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <FontAwesomeIcon icon={faUser} />
                   </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="lastname"
-                    className="block text-sm font-bold text-dark mb-1"
-                  >
-                    Sobrenome
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <FontAwesomeIcon icon={faUser} />
-                    </div>
-                    <input
-                      type="text"
-                      name="lastname"
-                      id="lastname"
-                      placeholder="Seu sobrenome"
-                      value={formData.lastname}
-                      onChange={handleChange}
-                      required
-                      className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Seu nome completo"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  />
                 </div>
               </div>
 
