@@ -43,7 +43,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const itemCount = cart.reduce((total, item) => total + item.cartQuantity, 0);
 
   // Detectar scroll para mudar estilo do header
   useEffect(() => {
