@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useSearch } from "../context/SearchContext";
 import productService from "../services/productService";
@@ -32,22 +32,6 @@ function Produtos({ category }) {
   const [error, setError] = useState(null);
   const [addingId, setAddingId] = useState(null);
 
-  const normalizedSearchTerm = searchTerm?.trim().toLowerCase() || "";
-
-  const filteredProducts = useMemo(() => {
-    if (!normalizedSearchTerm) return products;
-
-    return products.filter((product) => {
-      const name = product.name?.toLowerCase() || "";
-      const description = product.description?.toLowerCase() || "";
-
-      return (
-        name.includes(normalizedSearchTerm) ||
-        description.includes(normalizedSearchTerm)
-      );
-    });
-  }, [products, normalizedSearchTerm]);
-
   const handleAddToCart = (product) => {
     addToCart(product);
     setAddingId(product.id);
@@ -62,7 +46,10 @@ function Produtos({ category }) {
         setLoading(true);
         setError(null);
 
-        const data = await productService.getProducts(category);
+        const data = await productService.getProducts({
+          category,
+          search: searchTerm,
+        });
 
         if (isActive) {
           setProducts(data);
@@ -85,7 +72,7 @@ function Produtos({ category }) {
     return () => {
       isActive = false;
     };
-  }, [category]);
+  }, [category, searchTerm]);
 
   if (loading) {
     return (
@@ -102,21 +89,23 @@ function Produtos({ category }) {
   }
 
   if (!products.length) {
+    if (searchTerm?.trim()) {
+      return (
+        <div className="text-center py-8 text-gray-500">
+          Nenhum produto encontrado para &ldquo;
+          <span className="font-bold">{searchTerm}</span>
+          &rdquo;.
+          <br />
+          <small className="text-gray-400">
+            Tente buscar por outros termos.
+          </small>
+        </div>
+      );
+    }
+
     return (
       <div className="text-center py-8 text-gray-500 font-medium">
         Nenhum produto encontrado.
-      </div>
-    );
-  }
-
-  if (normalizedSearchTerm && !filteredProducts.length) {
-    return (
-      <div className="text-center py-8 text-gray-500">
-        Nenhum produto encontrado para &ldquo;
-        <span className="font-bold">{searchTerm}</span>
-        &rdquo;.
-        <br />
-        <small className="text-gray-400">Tente buscar por outros termos.</small>
       </div>
     );
   }
@@ -125,19 +114,19 @@ function Produtos({ category }) {
     <main className="w-full">
       <section className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
-          {normalizedSearchTerm && (
+          {searchTerm?.trim() && (
             <div className="text-center mb-8">
               <h3 className="text-xl font-bold text-dark">
                 Resultados para: &ldquo;{searchTerm}&rdquo;
               </h3>
               <p className="text-gray-600">
-                {filteredProducts.length} produto(s) encontrado(s)
+                {products.length} produto(s) encontrado(s)
               </p>
             </div>
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
+            {products.map((product) => (
               <div
                 key={product.id}
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-full border border-gray-100"
