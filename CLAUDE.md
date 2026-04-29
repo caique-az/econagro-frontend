@@ -226,7 +226,7 @@ Arquivo afetado:
 
 - `src/components/Header.jsx` — consome `isLoading` do `useAuth()` e exibe `"..."` na área de auth durante carregamento.
 
-### Prioridade 5 — Integrar recuperação de senha ao backend real
+### Prioridade 5 — Integrar recuperação de senha ao backend real ✅
 
 Fluxo esperado:
 
@@ -251,7 +251,7 @@ Se o e-mail informado estiver cadastrado, você receberá um link de recuperaç�
 
 Proibido: `console.log(token)`.
 
-### Prioridade 6 — Integrar Fale Conosco ao backend real
+### Prioridade 6 — Integrar Fale Conosco ao backend real ✅
 
 Endpoint:
 
@@ -266,9 +266,9 @@ Arquivos afetados:
 
 Não usar EmailJS, SMTP, API key de e-mail no browser.
 
-### Prioridade 7 — Atualizar `CLAUDE.md`
+### Prioridade 7 — Atualizar `CLAUDE.md` ✅
 
-Refletir no CLAUDE.md todas as mudanças acima após conclusão.
+Todas as mudanças acima estão refletidas neste arquivo.
 
 ---
 
