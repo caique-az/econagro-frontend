@@ -23,7 +23,7 @@ import {
 function Header() {
   const { cart } = useCart();
   const { updateSearch } = useSearch();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
   const [categories, setCategories] = useState([]);
 
@@ -146,7 +146,9 @@ function Header() {
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center space-x-6">
               <div className="flex items-center space-x-2 text-white/90">
-                {isAuthenticated ? (
+                {isLoading ? (
+                  <span className="py-2 px-4 text-white/60 text-sm">...</span>
+                ) : isAuthenticated ? (
                   <>
                     <span className="flex items-center gap-2 font-medium py-2 px-4">
                       <FontAwesomeIcon icon={faUser} />
@@ -217,7 +219,11 @@ function Header() {
             </form>
 
             <div className="grid grid-cols-2 gap-3 pt-2">
-              {isAuthenticated ? (
+              {isLoading ? (
+                <span className="col-span-2 text-center py-3 text-white/60 text-sm">
+                  ...
+                </span>
+              ) : isAuthenticated ? (
                 <>
                   <span className="flex items-center justify-center gap-2 py-3 rounded-lg bg-green-800 text-white font-medium col-span-1">
                     <FontAwesomeIcon icon={faUser} />
