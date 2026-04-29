@@ -46,7 +46,10 @@ function Produtos({ category }) {
         setLoading(true);
         setError(null);
 
-        const data = await productService.getProducts({ category, search: searchTerm });
+        const data = await productService.getProducts({
+          category,
+          search: searchTerm,
+        });
 
         if (isActive) {
           setProducts(data);
@@ -93,7 +96,9 @@ function Produtos({ category }) {
           <span className="font-bold">{searchTerm}</span>
           &rdquo;.
           <br />
-          <small className="text-gray-400">Tente buscar por outros termos.</small>
+          <small className="text-gray-400">
+            Tente buscar por outros termos.
+          </small>
         </div>
       );
     }
