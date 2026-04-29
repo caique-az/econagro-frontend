@@ -1,100 +1,105 @@
 "use client";
 
 import { useState } from "react";
-import MensagemEnviada from "../../components/MensagemEnviada";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
   faPaperPlane,
   faUser,
   faCommentAlt,
+  faCheckCircle,
+  faExclamationCircle,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
+import contactService from "../../services/contactService";
 
 const ContatoPage = () => {
-  const [formEnviado, setFormEnviado] = useState(false);
-
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     mensagem: "",
   });
 
-  const [errors, setErrors] = useState({
-    nome: "",
-    email: "",
-    mensagem: "",
-  });
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    validateField(name, value);
-  };
-
-  const validateField = (name, value) => {
-    let error = "";
-
-    if (!value.trim()) {
-      error = "Este campo é obrigatório.";
-    } else {
-      if (name === "nome" && value.length < 3) {
-        error = "O nome deve ter pelo menos 3 caracteres.";
-      }
-      if (name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        error = "Insira um e-mail válido.";
-      }
-      if (name === "mensagem" && value.length < 10) {
-        error = "A mensagem deve ter pelo menos 10 caracteres.";
-      }
-    }
-
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: error,
-    }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+    setApiError("");
   };
 
   const validateForm = () => {
     const newErrors = {};
-    let valid = true;
 
     if (!formData.nome.trim()) {
       newErrors.nome = "Este campo é obrigatório.";
-      valid = false;
     } else if (formData.nome.length < 3) {
       newErrors.nome = "O nome deve ter pelo menos 3 caracteres.";
-      valid = false;
     }
 
     if (!formData.email.trim()) {
       newErrors.email = "Este campo é obrigatório.";
-      valid = false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Insira um e-mail válido.";
-      valid = false;
     }
 
     if (!formData.mensagem.trim()) {
       newErrors.mensagem = "Este campo é obrigatório.";
-      valid = false;
     } else if (formData.mensagem.length < 10) {
       newErrors.mensagem = "A mensagem deve ter pelo menos 10 caracteres.";
-      valid = false;
     }
 
     setErrors(newErrors);
-    return valid;
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (validateForm()) {
-      setFormEnviado(true);
+    setApiError("");
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    try {
+      await contactService.sendMessage({
+        name: formData.nome,
+        email: formData.email,
+        message: formData.mensagem,
+      });
+      setIsSuccess(true);
+    } catch (err) {
+      setApiError(
+        err.message ||
+          "Não foi possível enviar sua mensagem. Tente novamente.",
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (formEnviado) {
-    return <MensagemEnviada />;
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen bg-bg-light py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="max-w-3xl w-full">
+          <div className="bg-white rounded-2xl shadow-xl overflow-hidden p-12 flex flex-col items-center text-center">
+            <FontAwesomeIcon
+              icon={faCheckCircle}
+              className="text-success text-6xl mb-6"
+            />
+            <h2 className="text-3xl font-bold text-dark mb-2">
+              Mensagem enviada!
+            </h2>
+            <p className="text-gray-500 max-w-md">
+              Recebemos sua mensagem e entraremos em contato em breve.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -114,6 +119,13 @@ const ContatoPage = () => {
                 equipe entrará em contato o mais breve possível.
               </p>
             </div>
+
+            {apiError && (
+              <div className="mb-6 bg-red-50 border border-error rounded-lg p-3 flex items-center gap-2 text-sm text-error">
+                <FontAwesomeIcon icon={faExclamationCircle} />
+                {apiError}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} noValidate className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -211,10 +223,23 @@ const ContatoPage = () => {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-secondary shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary flex items-center justify-center"
+                  disabled={isLoading}
+                  className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-secondary shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
-                  Enviar Mensagem
+                  {isLoading ? (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faSpinner}
+                        className="mr-2 animate-spin"
+                      />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
+                      Enviar Mensagem
+                    </>
+                  )}
                 </button>
               </div>
             </form>
