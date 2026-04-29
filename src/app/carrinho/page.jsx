@@ -32,18 +32,9 @@ function CartItemImage({ src, alt }) {
 
 function CartPage() {
   const { cart, removeFromCart, clearCart, updateQuantity } = useCart();
-  const {
-    shipping,
-    setShipping,
-    promoCode,
-    setPromoCode,
-    promoError,
-    promoSuccess,
-    applyPromoCode,
-    calculateTotal,
-  } = useCartLogic();
+  const { shipping, setShipping, calculateTotal } = useCartLogic();
 
-  const { subtotal, discount, total } = calculateTotal(cart);
+  const { subtotal, total } = calculateTotal(cart);
 
   return (
     <div className="min-h-screen bg-bg-light py-12 px-4 sm:px-6 lg:px-8">
@@ -95,7 +86,7 @@ function CartPage() {
                         <button
                           type="button"
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
+                            updateQuantity(item.id, item.cartQuantity - 1)
                           }
                           className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary transition-colors focus:outline-none"
                           aria-label="Diminuir quantidade"
@@ -104,13 +95,13 @@ function CartPage() {
                         </button>
 
                         <span className="mx-3 font-bold text-dark w-4 text-center">
-                          {item.quantity}
+                          {item.cartQuantity}
                         </span>
 
                         <button
                           type="button"
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
+                            updateQuantity(item.id, item.cartQuantity + 1)
                           }
                           className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary transition-colors focus:outline-none"
                           aria-label="Aumentar quantidade"
@@ -184,61 +175,11 @@ function CartPage() {
                   </div>
                 </div>
 
-                <div className="mb-8">
-                  <label
-                    htmlFor="promo-code"
-                    className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2"
-                  >
-                    CÓDIGO PROMOCIONAL
-                  </label>
-
-                  <div className="flex gap-2">
-                    <input
-                      id="promo-code"
-                      type="text"
-                      placeholder="Digite o código"
-                      value={promoCode}
-                      onChange={(event) => setPromoCode(event.target.value)}
-                      onKeyDown={(event) => {
-                        if (event.key === "Enter") {
-                          applyPromoCode();
-                        }
-                      }}
-                      className="appearance-none block w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-primary transition-colors"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={applyPromoCode}
-                      className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors focus:outline-none whitespace-nowrap"
-                    >
-                      Aplicar
-                    </button>
-                  </div>
-
-                  {promoError && (
-                    <p className="mt-1 text-xs text-error">{promoError}</p>
-                  )}
-
-                  {promoSuccess && (
-                    <p className="mt-1 text-xs text-success">{promoSuccess}</p>
-                  )}
-                </div>
-
                 <div className="border-t border-gray-100 pt-4 space-y-3">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
                     <span className="font-medium">{formatPrice(subtotal)}</span>
                   </div>
-
-                  {discount > 0 && (
-                    <div className="flex justify-between text-success">
-                      <span>Desconto</span>
-                      <span className="font-medium">
-                        - {formatPrice(discount)}
-                      </span>
-                    </div>
-                  )}
 
                   <div className="flex justify-between text-gray-600">
                     <span>Frete</span>
