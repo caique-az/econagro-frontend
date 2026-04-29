@@ -177,7 +177,7 @@ Arquivos a criar/alterar:
 - `src/components/Providers.jsx` — incluir `AuthProvider`
 - `src/app/login/page.jsx` — chamar `auth.login`, loading no botão, erro real da API
 - `src/app/cadastro/page.jsx` — enviar `{ name, email, password }` (nome completo); não enviar `number`/`gender`; autenticar automaticamente com token retornado
-- `src/components/header.jsx` — mostrar nome/Sair quando logado; Entrar/Criar Conta quando não logado
+- `src/components/Header.jsx` — mostrar nome/Sair quando logado; Entrar/Criar Conta quando não logado
 
 Não implementar: cookie httpOnly, refresh token, OAuth, admin UI, recuperação de senha.
 
@@ -187,8 +187,8 @@ Arquivos a criar/alterar:
 
 - `src/services/categoryService.js` — método `getCategories()` com resolução de imagem igual ao `productService`
 - `src/app/page.jsx` — buscar categorias da API (componente client `CategoryGrid`)
-- `src/components/header.jsx` — carregar categorias via `categoryService`; fallback silencioso se API cair
-- `src/components/footer.jsx` — remover seção de categorias (duplicação desnecessária)
+- `src/components/Header.jsx` — carregar categorias via `categoryService`; fallback silencioso se API cair
+- `src/components/Footer.jsx` — remover seção de categorias (duplicação desnecessária)
 - `src/data/categories.jsx` — parar de usar como fonte de verdade
 - Links de categoria devem usar `encodeURIComponent(cat.name)`
 
